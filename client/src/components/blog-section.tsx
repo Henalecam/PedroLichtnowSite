@@ -1,6 +1,8 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Calendar, Clock, ArrowRight, BookOpen, Users, TrendingUp } from "lucide-react";
+import { useRef } from "react";
+import useScrollReveal from "@/hooks/useScrollReveal";
 
 export default function BlogSection() {
   const blogPosts = [
@@ -87,18 +89,32 @@ export default function BlogSection() {
   const featuredPost = blogPosts.find(post => post.featured);
   const regularPosts = blogPosts.filter(post => !post.featured);
 
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const titleRef = useRef<HTMLHeadingElement>(null);
+  const subtitleRef = useRef<HTMLSpanElement>(null);
+  const descRef = useRef<HTMLParagraphElement>(null);
+  const featuredRef = useRef<HTMLDivElement>(null);
+  const postsRef = useRef<HTMLDivElement>(null);
+
+  useScrollReveal(sectionRef, "animate-fade-in");
+  useScrollReveal(titleRef, "animate-fade-in");
+  useScrollReveal(subtitleRef, "animate-slide-up");
+  useScrollReveal(descRef, "animate-slide-up");
+  useScrollReveal(featuredRef, "animate-fade-in");
+  useScrollReveal(postsRef, "animate-fade-in");
+
   return (
     <section id="blog" className="py-24 relative overflow-hidden">
       {/* Background Pattern */}
       <div className="absolute inset-0 bg-[url('/pattern.png')] opacity-5"></div>
       
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+      <div ref={sectionRef} className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         <div className="text-center mb-16">
-          <span className="text-gold font-medium tracking-wider uppercase text-sm mb-4 block">Blog</span>
-          <h2 className="font-serif text-4xl md:text-5xl font-bold text-rich-black mb-6">
+          <span ref={subtitleRef} className="text-gold font-medium tracking-wider uppercase text-sm mb-4 block opacity-0">Blog</span>
+          <h2 ref={titleRef} className="font-serif text-4xl md:text-5xl font-bold text-rich-black mb-6 opacity-0">
             Insights e Reflexões
           </h2>
-          <p className="text-lg text-refined-gray max-w-2xl mx-auto">
+          <p ref={descRef} className="text-lg text-refined-gray max-w-2xl mx-auto opacity-0">
             Artigos profundos sobre desenvolvimento pessoal, liderança e transformação, 
             escritos para inspirar mudanças significativas em sua vida e carreira.
           </p>
@@ -106,7 +122,7 @@ export default function BlogSection() {
 
         {/* Featured Post */}
         {featuredPost && (
-          <div className="mb-16">
+          <div ref={featuredRef} className="mb-16 opacity-0">
             <Card className="group cursor-pointer overflow-hidden bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300">
               <div className="grid lg:grid-cols-2 gap-0">
                 <div className="relative h-64 lg:h-auto">
@@ -163,7 +179,7 @@ export default function BlogSection() {
         )}
 
         {/* Regular Posts Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+        <div ref={postsRef} className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12 opacity-0">
           {regularPosts.map((post) => (
             <Card key={post.id} className="group cursor-pointer bg-white rounded-xl shadow-lg overflow-hidden h-full hover:shadow-xl transition-all duration-300">
               <div className="relative h-48">

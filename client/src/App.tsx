@@ -20,8 +20,8 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <div className="bg-[#fafafa] bg-[url('/texture.png')] bg-repeat min-h-screen">
-          <Toaster />
-          <Router />
+        <Toaster />
+        <Router />
         </div>
       </TooltipProvider>
     </QueryClientProvider>

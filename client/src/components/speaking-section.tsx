@@ -48,7 +48,7 @@ export default function SpeakingSection() {
             Palestras que combinam storytelling, insights práticos e metodologias comprovadas para gerar transformação real em sua audiência.
           </p>
         </div>
-
+        
         {/* Stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16">
           {stats.map((stat, index) => (
@@ -92,9 +92,9 @@ export default function SpeakingSection() {
                       <h3 className="font-serif text-2xl font-bold mb-3 group-hover:text-gold transition-colors">
                         {topic.title}
                       </h3>
-                      <p className="text-white/80 leading-relaxed">
-                        {topic.description}
-                      </p>
+                  <p className="text-white/80 leading-relaxed">
+                    {topic.description}
+                  </p>
                     </div>
                   </div>
                 </div>

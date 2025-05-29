@@ -57,11 +57,11 @@ export default function BooksSection() {
           {books.map((book) => (
             <Card key={book.id} className="group bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300">
               <div className="relative">
-                <img 
-                  src={book.image}
-                  alt={`Capa do livro - ${book.title}`}
+              <img 
+                src={book.image}
+                alt={`Capa do livro - ${book.title}`}
                   className="w-full h-64 object-cover transform group-hover:scale-105 transition-transform duration-300"
-                />
+              />
                 {book.bestseller && (
                   <div className="absolute top-4 left-4 bg-gold text-rich-black px-3 py-1 rounded-full text-sm font-medium">
                     Bestseller

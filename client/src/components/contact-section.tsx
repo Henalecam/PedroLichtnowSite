@@ -67,26 +67,26 @@ export default function ContactSection() {
           <span className="text-gold font-medium tracking-wider uppercase text-sm mb-4 block">Contato</span>
           <h2 className="font-serif text-4xl md:text-5xl font-bold mb-6">
             Vamos Criar Algo Extraordinário
-          </h2>
-          <p className="text-lg text-white/80 mb-12 max-w-2xl mx-auto">
+        </h2>
+        <p className="text-lg text-white/80 mb-12 max-w-2xl mx-auto">
             Seja para uma palestra, parceria ou apenas uma conversa inspiradora, estou sempre aberto a novas conexões 
             que possam gerar transformação e crescimento.
-          </p>
+        </p>
         </div>
         
         <div className="grid md:grid-cols-3 gap-8 mb-16">
           {contactInfo.map((info, index) => (
-            <Button
+          <Button
               key={index}
               onClick={info.action}
               className={`flex items-center justify-center p-6 ${info.color} rounded-xl transition-all duration-300 group h-auto transform hover:scale-105`}
-            >
+          >
               <info.icon className="w-8 h-8 mr-4 group-hover:scale-110 transition-transform" />
-              <div className="text-left">
+            <div className="text-left">
                 <div className="font-semibold">{info.title}</div>
                 <div className="text-sm text-white/80">{info.description}</div>
-              </div>
-            </Button>
+            </div>
+          </Button>
           ))}
         </div>
 
@@ -125,7 +125,7 @@ export default function ContactSection() {
               ></textarea>
               <Button className="w-full bg-gold hover:bg-yellow-500 text-rich-black font-semibold py-3 !opacity-100">
                 Enviar Mensagem
-              </Button>
+          </Button>
             </form>
           </div>
         </div>
@@ -135,12 +135,12 @@ export default function ContactSection() {
             Conecte-se nas Redes Sociais
           </h3>
           <div className="flex justify-center gap-8">
-            {socialLinks.map((social, index) => (
-              <a
-                key={index}
-                href={social.href}
-                target="_blank"
-                rel="noopener noreferrer"
+          {socialLinks.map((social, index) => (
+            <a
+              key={index}
+              href={social.href}
+              target="_blank"
+              rel="noopener noreferrer"
                 className="group"
               >
                 <div className="w-16 h-16 bg-white/10 hover:bg-gold rounded-full flex items-center justify-center transition-all duration-300 mb-2 group-hover:scale-110">
@@ -149,8 +149,8 @@ export default function ContactSection() {
                 <div className="text-sm text-white/80">
                   {social.followers} seguidores
                 </div>
-              </a>
-            ))}
+            </a>
+          ))}
           </div>
         </div>
       </div>

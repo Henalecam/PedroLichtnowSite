@@ -15,10 +15,10 @@ export default function Home() {
       <HeroSection />
       <AboutSection />
       <BooksSection />
-      <SpeakingSection />
+      <SpeakingSection data-theme="dark" />
       <TestimonialsSection />
       <BlogSection />
-      <ContactSection />
+      <ContactSection data-theme="dark" />
       <Footer />
     </div>
   );

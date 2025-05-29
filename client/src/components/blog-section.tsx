@@ -1,6 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Calendar, Clock, ArrowRight } from "lucide-react";
+import { Calendar, Clock, ArrowRight, BookOpen, Users, TrendingUp } from "lucide-react";
 
 export default function BlogSection() {
   const blogPosts = [
@@ -13,7 +13,9 @@ export default function BlogSection() {
       readTime: "8 min",
       category: "Liderança",
       image: "https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
-      featured: true
+      featured: true,
+      views: 1250,
+      comments: 48
     },
     {
       id: 2,
@@ -24,7 +26,9 @@ export default function BlogSection() {
       readTime: "6 min",
       category: "Desenvolvimento Pessoal",
       image: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
-      featured: false
+      featured: false,
+      views: 980,
+      comments: 32
     },
     {
       id: 3,
@@ -35,7 +39,9 @@ export default function BlogSection() {
       readTime: "5 min",
       category: "Comunicação",
       image: "https://images.unsplash.com/photo-1517048676732-d65bc937f952?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
-      featured: false
+      featured: false,
+      views: 850,
+      comments: 28
     },
     {
       id: 4,
@@ -46,7 +52,9 @@ export default function BlogSection() {
       readTime: "7 min",
       category: "Resiliência",
       image: "https://images.unsplash.com/photo-1469474968028-56623f02e42e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
-      featured: false
+      featured: false,
+      views: 720,
+      comments: 25
     },
     {
       id: 5,
@@ -57,7 +65,9 @@ export default function BlogSection() {
       readTime: "9 min",
       category: "Propósito",
       image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
-      featured: false
+      featured: false,
+      views: 650,
+      comments: 22
     },
     {
       id: 6,
@@ -68,7 +78,9 @@ export default function BlogSection() {
       readTime: "6 min",
       category: "Inteligência Emocional",
       image: "https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
-      featured: false
+      featured: false,
+      views: 580,
+      comments: 19
     }
   ];
 
@@ -76,28 +88,34 @@ export default function BlogSection() {
   const regularPosts = blogPosts.filter(post => !post.featured);
 
   return (
-    <section id="blog" className="py-20 bg-gray-50">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="blog" className="py-24 relative overflow-hidden">
+      {/* Background Pattern */}
+      <div className="absolute inset-0 bg-[url('/pattern.png')] opacity-5"></div>
+      
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         <div className="text-center mb-16">
-          <h2 className="relative font-serif text-4xl md:text-5xl font-bold text-rich-black mb-6 gold-accent inline-block">
-            Blog
+          <span className="text-gold font-medium tracking-wider uppercase text-sm mb-4 block">Blog</span>
+          <h2 className="font-serif text-4xl md:text-5xl font-bold text-rich-black mb-6">
+            Insights e Reflexões
           </h2>
           <p className="text-lg text-refined-gray max-w-2xl mx-auto">
-            Reflexões, insights e conhecimentos sobre desenvolvimento pessoal, liderança e transformação.
+            Artigos profundos sobre desenvolvimento pessoal, liderança e transformação, 
+            escritos para inspirar mudanças significativas em sua vida e carreira.
           </p>
         </div>
 
         {/* Featured Post */}
         {featuredPost && (
           <div className="mb-16">
-            <Card className="card-hover cursor-pointer overflow-hidden bg-white rounded-2xl shadow-xl">
+            <Card className="group cursor-pointer overflow-hidden bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300">
               <div className="grid lg:grid-cols-2 gap-0">
                 <div className="relative h-64 lg:h-auto">
                   <img 
                     src={featuredPost.image}
                     alt={featuredPost.title}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-300"
                   />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent transform group-hover:scale-105 transition-transform duration-300"></div>
                   <div className="absolute top-4 left-4">
                     <span className="bg-gold text-rich-black px-3 py-1 rounded-full text-sm font-semibold">
                       Destaque
@@ -118,12 +136,22 @@ export default function BlogSection() {
                       <span>{featuredPost.readTime}</span>
                     </div>
                   </div>
-                  <h3 className="font-serif text-2xl lg:text-3xl font-bold text-rich-black mb-4">
+                  <h3 className="font-serif text-2xl lg:text-3xl font-bold text-rich-black mb-4 group-hover:text-gold transition-colors">
                     {featuredPost.title}
                   </h3>
                   <p className="text-refined-gray mb-6 leading-relaxed">
                     {featuredPost.excerpt}
                   </p>
+                  <div className="flex items-center gap-6 mb-6 text-sm text-refined-gray">
+                    <div className="flex items-center gap-2">
+                      <Users className="w-4 h-4" />
+                      <span>{featuredPost.views} leitores</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <TrendingUp className="w-4 h-4" />
+                      <span>{featuredPost.comments} comentários</span>
+                    </div>
+                  </div>
                   <Button className="bg-gold hover:bg-yellow-500 text-rich-black font-semibold self-start group">
                     Ler artigo completo
                     <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
@@ -137,13 +165,14 @@ export default function BlogSection() {
         {/* Regular Posts Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
           {regularPosts.map((post) => (
-            <Card key={post.id} className="card-hover cursor-pointer bg-white rounded-xl shadow-lg overflow-hidden h-full">
+            <Card key={post.id} className="group cursor-pointer bg-white rounded-xl shadow-lg overflow-hidden h-full hover:shadow-xl transition-all duration-300">
               <div className="relative h-48">
                 <img 
                   src={post.image}
                   alt={post.title}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-300"
                 />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent transform group-hover:scale-105 transition-transform duration-300"></div>
                 <div className="absolute top-3 left-3">
                   <span className="bg-white/90 text-rich-black px-2 py-1 rounded-full text-xs font-medium">
                     {post.category}
@@ -163,13 +192,24 @@ export default function BlogSection() {
                   </div>
                 </div>
                 
-                <h3 className="font-serif text-lg font-bold text-rich-black mb-3 line-clamp-2">
+                <h3 className="font-serif text-lg font-bold text-rich-black mb-3 line-clamp-2 group-hover:text-gold transition-colors">
                   {post.title}
                 </h3>
                 
                 <p className="text-refined-gray text-sm leading-relaxed mb-4 flex-grow">
                   {post.excerpt}
                 </p>
+
+                <div className="flex items-center gap-4 mb-4 text-xs text-refined-gray">
+                  <div className="flex items-center gap-1">
+                    <Users className="w-3 h-3" />
+                    <span>{post.views} leitores</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <TrendingUp className="w-3 h-3" />
+                    <span>{post.comments} comentários</span>
+                  </div>
+                </div>
                 
                 <Button 
                   variant="outline" 
@@ -181,6 +221,30 @@ export default function BlogSection() {
               </CardContent>
             </Card>
           ))}
+        </div>
+
+        {/* Newsletter Subscription */}
+        <div className="bg-white rounded-2xl shadow-lg p-8 mb-12">
+          <div className="grid md:grid-cols-2 gap-8 items-center">
+            <div>
+              <h3 className="font-serif text-2xl font-bold text-rich-black mb-3">
+                Receba Novos Artigos
+              </h3>
+              <p className="text-refined-gray">
+                Inscreva-se para receber artigos exclusivos sobre desenvolvimento pessoal e liderança diretamente em seu e-mail.
+              </p>
+            </div>
+            <div className="flex gap-4">
+              <input
+                type="email"
+                placeholder="Seu melhor e-mail"
+                className="flex-1 px-4 py-3 rounded-lg bg-rich-black/60 border border-white/20 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-gold"
+              />
+              <Button className="bg-gold hover:bg-yellow-500 text-rich-black font-semibold px-6">
+                Inscrever-se
+              </Button>
+            </div>
+          </div>
         </div>
 
         {/* View All Posts Button */}

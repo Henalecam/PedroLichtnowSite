@@ -21,6 +21,7 @@ export default function Navigation() {
     { href: "#livros", label: "Livros" },
     { href: "#palestras", label: "Palestras" },
     { href: "#depoimentos", label: "Depoimentos" },
+    { href: "#blog", label: "Blog" },
     { href: "#contato", label: "Contato" },
   ];
 

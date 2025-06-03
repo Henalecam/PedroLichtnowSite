@@ -1,5 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Mail, MessageCircle, Calendar, MapPin } from "lucide-react";
+import { useRef } from "react";
+import useScrollReveal from "@/hooks/useScrollReveal";
 
 export default function ContactSection() {
   const handleWhatsAppContact = () => {
@@ -57,24 +59,38 @@ export default function ContactSection() {
     }
   ];
 
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const titleRef = useRef<HTMLHeadingElement>(null);
+  const subtitleRef = useRef<HTMLSpanElement>(null);
+  const descRef = useRef<HTMLParagraphElement>(null);
+  const buttonsRef = useRef<HTMLDivElement>(null);
+  const socialRef = useRef<HTMLDivElement>(null);
+
+  useScrollReveal(sectionRef, "animate-fade-in");
+  useScrollReveal(titleRef, "animate-fade-in");
+  useScrollReveal(subtitleRef, "animate-slide-up");
+  useScrollReveal(descRef, "animate-slide-up");
+  useScrollReveal(buttonsRef, "animate-fade-in");
+  useScrollReveal(socialRef, "animate-fade-in");
+
   return (
     <section id="contato" data-theme="dark" className="py-24 relative overflow-hidden bg-rich-black text-white">
       {/* Background Pattern */}
       <div className="absolute inset-0 bg-[url('/pattern.png')] opacity-5"></div>
       
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+      <div ref={sectionRef} className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         <div className="text-center mb-16">
-          <span className="text-gold font-medium tracking-wider uppercase text-sm mb-4 block">Contato</span>
-          <h2 className="font-serif text-4xl md:text-5xl font-bold mb-6">
+          <span ref={subtitleRef} className="text-gold font-medium tracking-wider uppercase text-sm mb-4 block opacity-0">Contato</span>
+          <h2 ref={titleRef} className="font-serif text-4xl md:text-5xl font-bold mb-6 opacity-0">
             Vamos Criar Algo Extraordinário
         </h2>
-        <p className="text-lg text-white/80 mb-12 max-w-2xl mx-auto">
+        <p ref={descRef} className="text-lg text-white/80 mb-12 max-w-2xl mx-auto opacity-0">
             Seja para uma palestra, parceria ou apenas uma conversa inspiradora, estou sempre aberto a novas conexões 
             que possam gerar transformação e crescimento.
         </p>
         </div>
         
-        <div className="grid md:grid-cols-3 gap-8 mb-16">
+        <div ref={buttonsRef} className="grid md:grid-cols-3 gap-8 mb-16 opacity-0">
           {contactInfo.map((info, index) => (
           <Button
               key={index}
@@ -130,7 +146,7 @@ export default function ContactSection() {
           </div>
         </div>
         
-        <div className="text-center">
+        <div ref={socialRef} className="text-center opacity-0">
           <h3 className="font-serif text-2xl font-bold mb-8">
             Conecte-se nas Redes Sociais
           </h3>

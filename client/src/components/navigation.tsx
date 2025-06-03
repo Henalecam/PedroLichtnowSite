@@ -9,9 +9,8 @@ export default function Navigation() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 100);
+      setIsScrolled(window.scrollY > 50);
 
-      // Detectar seção sob a navbar
       const sections = Array.from(document.querySelectorAll('section[id]'));
       const navbar = document.querySelector('nav');
       if (!navbar) return;
@@ -34,7 +33,7 @@ export default function Navigation() {
     };
 
     window.addEventListener("scroll", handleScroll);
-    handleScroll(); // inicial
+    handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -55,48 +54,47 @@ export default function Navigation() {
     }
   };
 
-  // Classes dinâmicas para navbar e links
   const navBg = navTheme === 'dark'
-    ? (isScrolled ? 'bg-rich-black/95 backdrop-blur-md' : 'bg-rich-black/80 backdrop-blur')
-    : (isScrolled ? 'bg-white/98 backdrop-blur-md' : 'bg-white/95 backdrop-blur-sm');
+    ? (isScrolled ? 'glass-effect-dark' : 'bg-transparent')
+    : (isScrolled ? 'glass-effect' : 'bg-transparent');
   const navText = navTheme === 'dark' ? 'text-white' : 'text-rich-black';
   const navLink = navTheme === 'dark'
-    ? 'nav-link text-white hover:text-gold'
+    ? 'nav-link text-white/90 hover:text-gold'
     : 'nav-link text-refined-gray hover:text-rich-black';
 
   return (
     <nav 
-      className={`fixed top-0 w-full z-50 border-b border-gray-100 transition-all duration-300 ${navBg}`}
+      className={`fixed top-0 w-full z-50 transition-all duration-500 ${navBg}`}
     >
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
-          <div className={`font-serif font-bold text-xl ${navText}`}>Pedro Lichtnow</div>
-          {/* Desktop Navigation */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center h-20">
+          <div className={`font-serif font-bold text-2xl ${navText} transition-colors duration-300`}>
+            Pedro Lichtnow
+          </div>
           <div className="hidden md:flex space-x-8">
             {navLinks.map((link) => (
               <button
                 key={link.href}
                 onClick={() => scrollToSection(link.href)}
-                className={navLink}
+                className={`${navLink} text-sm font-medium tracking-wide transition-all duration-300`}
               >
                 {link.label}
               </button>
             ))}
           </div>
-          {/* Mobile Navigation */}
           <Sheet>
             <SheetTrigger asChild>
               <Button variant="ghost" className="md:hidden" size="icon">
                 <Menu className={`h-6 w-6 ${navText}`} />
               </Button>
             </SheetTrigger>
-            <SheetContent>
-              <div className="flex flex-col space-y-4 mt-8">
+            <SheetContent className="glass-effect">
+              <div className="flex flex-col space-y-6 mt-8">
                 {navLinks.map((link) => (
                   <button
                     key={link.href}
                     onClick={() => scrollToSection(link.href)}
-                    className={navLink + " text-lg text-left transition-colors"}
+                    className={`${navLink} text-lg text-left transition-all duration-300`}
                   >
                     {link.label}
                   </button>

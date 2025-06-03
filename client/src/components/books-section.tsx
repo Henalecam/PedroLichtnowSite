@@ -1,6 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Info, Star, BookOpen } from "lucide-react";
+import { useRef } from "react";
+import useScrollReveal from "@/hooks/useScrollReveal";
 
 export default function BooksSection() {
   const books = [
@@ -36,98 +38,62 @@ export default function BooksSection() {
     }
   ];
 
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const titleRef = useRef<HTMLHeadingElement>(null);
+  const subtitleRef = useRef<HTMLSpanElement>(null);
+  const descRef = useRef<HTMLParagraphElement>(null);
+  const cardsRef = useRef<HTMLDivElement>(null);
+
+  useScrollReveal(sectionRef, "animate-fade-in");
+  useScrollReveal(titleRef, "animate-fade-in");
+  useScrollReveal(subtitleRef, "animate-slide-up");
+  useScrollReveal(descRef, "animate-slide-up");
+  useScrollReveal(cardsRef, "animate-fade-in");
+
   return (
     <section id="livros" className="py-24 relative overflow-hidden">
       {/* Background Pattern */}
       <div className="absolute inset-0 bg-[url('/pattern.png')] opacity-5"></div>
       
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+      <div ref={sectionRef} className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         <div className="text-center mb-16">
-          <span className="text-gold font-medium tracking-wider uppercase text-sm mb-4 block">Bibliografia</span>
-          <h2 className="font-serif text-4xl md:text-5xl font-bold text-rich-black mb-6">
+          <span ref={subtitleRef} className="text-gold font-medium tracking-wider uppercase text-sm mb-4 block opacity-0">Bibliografia</span>
+          <h2 ref={titleRef} className="font-serif text-4xl md:text-5xl font-bold text-rich-black mb-6 opacity-0">
             Livros que Transformam Vidas
           </h2>
-          <p className="text-lg text-refined-gray max-w-2xl mx-auto">
+          <p ref={descRef} className="text-lg text-refined-gray max-w-2xl mx-auto opacity-0">
             Uma coleção de obras que exploram os caminhos da transformação pessoal e do crescimento humano, 
             escritas com o propósito de inspirar mudanças significativas.
           </p>
         </div>
         
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div ref={cardsRef} className="grid md:grid-cols-3 gap-8 opacity-0">
           {books.map((book) => (
-            <Card key={book.id} className="group bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300">
-              <div className="relative">
-              <img 
-                src={book.image}
-                alt={`Capa do livro - ${book.title}`}
-                  className="w-full h-64 object-cover transform group-hover:scale-105 transition-transform duration-300"
-              />
-                {book.bestseller && (
-                  <div className="absolute top-4 left-4 bg-gold text-rich-black px-3 py-1 rounded-full text-sm font-medium">
-                    Bestseller
-                  </div>
-                )}
-              </div>
-              
-              <CardContent className="p-6">
-                <div className="flex items-center gap-2 mb-3">
-                  <div className="flex items-center">
-                    {[...Array(5)].map((_, i) => (
-                      <Star
-                        key={i}
-                        className={`w-4 h-4 ${
-                          i < Math.floor(book.rating) ? "text-gold fill-gold" : "text-gray-300"
-                        }`}
-                      />
-                    ))}
-                  </div>
-                  <span className="text-sm text-refined-gray">
-                    {book.rating} ({book.reviews} avaliações)
-                  </span>
+            <Card key={book.id} className="group overflow-hidden bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 card-hover">
+              <CardContent className="p-6 flex flex-col h-full">
+                <div className="relative mb-4">
+                  <img src={book.image} alt={book.title} className="w-full h-64 object-cover rounded-xl mb-2" />
+                  {book.bestseller && (
+                    <span className="absolute top-2 left-2 bg-gold text-rich-black px-3 py-1 rounded-full text-xs font-semibold shadow">Bestseller</span>
+                  )}
                 </div>
-
-                <h3 className="font-serif text-xl font-bold text-rich-black mb-3 group-hover:text-gold transition-colors">
-                  {book.title}
-                </h3>
-                
-                <p className="text-refined-gray mb-4 text-sm leading-relaxed">
-                  {book.description}
-                </p>
-
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="flex items-center text-sm text-refined-gray">
-                    <BookOpen className="w-4 h-4 mr-1" />
-                    <span>Disponível em eBook e Físico</span>
-                  </div>
+                <h3 className="font-serif text-xl font-bold text-rich-black mb-2">{book.title}</h3>
+                <p className="text-refined-gray text-sm mb-4 flex-1">{book.description}</p>
+                <div className="flex items-center mb-4">
+                  <Star className="w-4 h-4 text-gold mr-1" />
+                  <span className="text-gold font-semibold mr-2">{book.rating}</span>
+                  <span className="text-refined-gray text-xs">({book.reviews} avaliações)</span>
                 </div>
-
-                <div className="flex space-x-3">
-                  <Button 
-                    asChild
-                    className="flex-1 bg-gold hover:bg-yellow-500 text-rich-black font-medium"
-                  >
-                    <a href={book.purchaseUrl} target="_blank" rel="noopener noreferrer">
-                      Comprar Agora
-                    </a>
-                  </Button>
-                  <Button 
-                    variant="outline" 
-                    size="icon"
-                    className="border-gold text-gold hover:bg-gold hover:text-rich-black"
-                  >
-                    <Info className="h-4 w-4" />
-                  </Button>
-                </div>
+                <Button asChild className="bg-gold hover:bg-yellow-500 text-rich-black font-semibold w-full mt-auto">
+                  <a href={book.purchaseUrl} target="_blank" rel="noopener noreferrer">Comprar Agora</a>
+                </Button>
               </CardContent>
             </Card>
           ))}
         </div>
 
-        <div className="mt-16 text-center">
-          <Button
-            variant="outline"
-            className="border-2 border-gold text-gold hover:bg-gold hover:text-rich-black font-medium px-8 py-3"
-          >
+        <div className="text-center mt-12">
+          <Button variant="outline" className="border-gold text-gold hover:bg-gold hover:text-white px-8 py-3 font-semibold">
             Ver Todos os Livros
           </Button>
         </div>

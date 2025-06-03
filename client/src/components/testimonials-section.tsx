@@ -1,5 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Star, Quote } from "lucide-react";
+import { useRef } from "react";
+import useScrollReveal from "@/hooks/useScrollReveal";
 
 export default function TestimonialsSection() {
   const testimonials = [
@@ -29,23 +31,35 @@ export default function TestimonialsSection() {
     }
   ];
 
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const titleRef = useRef<HTMLHeadingElement>(null);
+  const subtitleRef = useRef<HTMLSpanElement>(null);
+  const descRef = useRef<HTMLParagraphElement>(null);
+  const cardsRef = useRef<HTMLDivElement>(null);
+
+  useScrollReveal(sectionRef, "animate-fade-in");
+  useScrollReveal(titleRef, "animate-fade-in");
+  useScrollReveal(subtitleRef, "animate-slide-up");
+  useScrollReveal(descRef, "animate-slide-up");
+  useScrollReveal(cardsRef, "animate-fade-in");
+
   return (
     <section id="depoimentos" data-theme="dark" className="py-24 relative overflow-hidden">
       {/* Background Pattern */}
       <div className="absolute inset-0 bg-[url('/pattern.png')] opacity-5"></div>
       
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+      <div ref={sectionRef} className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         <div className="text-center mb-16">
-          <span className="text-gold font-medium tracking-wider uppercase text-sm mb-4 block">Depoimentos</span>
-          <h2 className="font-serif text-4xl md:text-5xl font-bold text-rich-black mb-6">
+          <span ref={subtitleRef} className="text-gold font-medium tracking-wider uppercase text-sm mb-4 block opacity-0">Depoimentos</span>
+          <h2 ref={titleRef} className="font-serif text-4xl md:text-5xl font-bold text-rich-black mb-6 opacity-0">
             Histórias de Transformação
           </h2>
-          <p className="text-lg text-refined-gray max-w-2xl mx-auto">
+          <p ref={descRef} className="text-lg text-refined-gray max-w-2xl mx-auto opacity-0">
             Veja o que leitores e organizadores de eventos falam sobre o impacto do trabalho de Pedro em suas vidas e organizações.
           </p>
         </div>
         
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div ref={cardsRef} className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 opacity-0">
           {testimonials.map((testimonial) => (
             <Card key={testimonial.id} className="group bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
               <CardContent className="p-0">

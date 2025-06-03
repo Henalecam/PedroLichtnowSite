@@ -9,12 +9,12 @@ export default function HeroSection() {
 
   const handleWhatsAppContact = () => {
     const message = "Olá Pedro, gostaria de mais informações sobre seu trabalho.";
-    const whatsappUrl = `https://wa.me/5511999999999?text=${encodeURIComponent(message)}`;
+    const whatsappUrl = `https://wa.me/5511999999?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, "_blank");
   };
 
   return (
-    <section id="inicio" className="relative min-h-screen flex items-center justify-center overflow-hidden" data-theme="dark">
+    <section id="inicio" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-secondary-dark text-white" data-theme="dark">
       <div className="absolute inset-0 z-0">
         <img 
           src="https://plus.unsplash.com/premium_photo-1664790560283-7c9c4701bb97?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
@@ -27,7 +27,7 @@ export default function HeroSection() {
       
       <div ref={ref} className="relative z-10 text-center px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
         <div className="mb-8 transform hover:scale-105 transition-transform duration-500">
-          <span className="inline-block px-6 py-3 bg-gold/20 backdrop-blur-sm rounded-full text-gold text-sm font-medium mb-4 border border-gold/30">
+          <span className="inline-block px-6 py-3 bg-secondary-light/80 backdrop-blur-sm rounded-full text-gold text-sm font-medium mb-4 border border-gold/30">
             Transformando vidas através da palavra
           </span>
         </div>
@@ -57,7 +57,7 @@ export default function HeroSection() {
           
           <Button 
             variant="outline"
-            className="border-2 border-gold bg-white/10 backdrop-blur-sm text-white hover:bg-gold hover:text-rich-black font-semibold px-8 py-4 text-lg rounded-lg transition-all duration-300"
+            className="border-2 border-gold bg-secondary-dark/80 backdrop-blur-sm text-white hover:bg-gold hover:text-rich-black font-semibold px-8 py-4 text-lg rounded-lg transition-all duration-300"
           >
             Conheça meus livros
           </Button>
@@ -65,7 +65,7 @@ export default function HeroSection() {
       </div>
       
       <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-float">
-        <ChevronDown className="text-white text-2xl opacity-70" />
+        <ChevronDown className="text-gold text-2xl opacity-90" />
       </div>
     </section>
   );

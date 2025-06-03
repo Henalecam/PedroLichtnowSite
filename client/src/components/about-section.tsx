@@ -21,14 +21,14 @@ export default function AboutSection() {
   useScrollReveal(clientsRef, "animate-fade-in");
 
   return (
-    <section id="sobre" className="py-24 relative overflow-hidden">
+    <section id="sobre" className="py-24 relative overflow-hidden bg-secondary-dark text-white">
       {/* Background Pattern */}
       <div className="absolute inset-0 bg-[url('/pattern.png')] opacity-5"></div>
       
       <div ref={sectionRef} className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         <div className="text-center mb-16">
           <span ref={subtitleRef} className="text-gold font-medium tracking-wider uppercase text-sm mb-4 block opacity-0">Minha História</span>
-          <h2 ref={titleRef} className="font-serif text-4xl md:text-5xl font-bold text-rich-black mb-6 opacity-0">
+          <h2 ref={titleRef} className="font-serif text-4xl md:text-5xl font-bold text-white mb-6 opacity-0">
             Transformando Vidas Através da Palavra
           </h2>
         </div>
@@ -41,7 +41,7 @@ export default function AboutSection() {
               alt="Pedro Lichtnow em seu escritório" 
               className="rounded-2xl shadow-2xl w-full h-auto relative z-10"
             />
-            <div className="absolute -bottom-6 -right-6 bg-white p-6 rounded-xl shadow-lg z-20">
+            <div className="absolute -bottom-6 -right-6 bg-secondary-light p-6 rounded-xl shadow-lg z-20">
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 bg-gold/20 rounded-full flex items-center justify-center">
                   <svg className="w-6 h-6 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -49,34 +49,34 @@ export default function AboutSection() {
                   </svg>
                 </div>
                 <div>
-                  <div className="text-sm font-medium text-rich-black">Certificado</div>
-                  <div className="text-xs text-refined-gray">Especialista em Desenvolvimento Humano</div>
+                  <div className="text-sm font-medium text-secondary-dark">Certificado</div>
+                  <div className="text-xs text-secondary-dark/70">Especialista em Desenvolvimento Humano</div>
                 </div>
               </div>
             </div>
           </div>
           
           <div>
-            <p ref={text1Ref} className="text-lg text-refined-gray mb-6 leading-relaxed opacity-0">
+            <p ref={text1Ref} className="text-lg text-white/80 mb-6 leading-relaxed opacity-0">
               Com mais de uma década dedicada à literatura e ao desenvolvimento humano, Pedro Lichtnow é reconhecido como uma das vozes mais inspiradoras da atualidade. Sua trajetória como escritor e palestrante tem tocado milhares de vidas através de palavras que transformam e inspiram mudanças significativas.
             </p>
             
-            <p ref={text2Ref} className="text-lg text-refined-gray mb-8 leading-relaxed opacity-0">
+            <p ref={text2Ref} className="text-lg text-white/80 mb-8 leading-relaxed opacity-0">
               Especialista em temas como liderança, autoconhecimento e transformação pessoal, Pedro combina conhecimento acadêmico com experiência prática, criando conteúdos que ressoam profundamente com seu público e geram resultados mensuráveis.
             </p>
             
             <div ref={statsRef} className="grid grid-cols-3 gap-8 opacity-0">
-              <div className="text-center p-4 rounded-xl bg-white shadow-sm hover:shadow-md transition-shadow">
+              <div className="text-center p-4 rounded-xl bg-secondary-light shadow-sm hover:shadow-md transition-shadow">
                 <div className="text-3xl font-bold text-gold mb-2">12+</div>
-                <div className="text-sm text-refined-gray font-medium">Livros Publicados</div>
+                <div className="text-sm text-secondary-dark font-medium">Livros Publicados</div>
               </div>
-              <div className="text-center p-4 rounded-xl bg-white shadow-sm hover:shadow-md transition-shadow">
+              <div className="text-center p-4 rounded-xl bg-secondary-light shadow-sm hover:shadow-md transition-shadow">
                 <div className="text-3xl font-bold text-gold mb-2">500+</div>
-                <div className="text-sm text-refined-gray font-medium">Eventos Realizados</div>
+                <div className="text-sm text-secondary-dark font-medium">Eventos Realizados</div>
               </div>
-              <div className="text-center p-4 rounded-xl bg-white shadow-sm hover:shadow-md transition-shadow">
+              <div className="text-center p-4 rounded-xl bg-secondary-light shadow-sm hover:shadow-md transition-shadow">
                 <div className="text-3xl font-bold text-gold mb-2">50k+</div>
-                <div className="text-sm text-refined-gray font-medium">Pessoas Impactadas</div>
+                <div className="text-sm text-secondary-dark font-medium">Pessoas Impactadas</div>
               </div>
             </div>
 
@@ -87,12 +87,12 @@ export default function AboutSection() {
                     key={i}
                     src={`https://i.pravatar.cc/150?img=${i + 10}`}
                     alt={`Cliente ${i}`}
-                    className="w-10 h-10 rounded-full border-2 border-white"
+                    className="w-10 h-10 rounded-full border-2 border-secondary-light"
                   />
                 ))}
               </div>
-              <div className="text-sm text-refined-gray">
-                <span className="font-semibold text-rich-black">+1000 clientes satisfeitos</span> em todo o Brasil
+              <div className="text-sm text-white/80">
+                <span className="font-semibold text-gold">+1000 clientes satisfeitos</span> em todo o Brasil
               </div>
             </div>
           </div>

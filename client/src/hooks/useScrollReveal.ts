@@ -15,12 +15,21 @@ export default function useScrollReveal(ref: React.RefObject<HTMLElement>, anima
       });
     };
 
-    const observer = new window.IntersectionObserver(handleIntersection, {
-      threshold: 0.1,
-      rootMargin: "0px 0px -10% 0px"
-    });
+    let observer: IntersectionObserver | undefined;
 
-    observer.observe(node);
-    return () => observer.disconnect();
+    if (typeof window !== 'undefined') {
+      observer = new IntersectionObserver(handleIntersection, {
+        threshold: 0.1,
+        rootMargin: "0px 0px -10% 0px"
+      });
+
+      observer.observe(node);
+    }
+
+    return () => {
+      if (observer) {
+        observer.disconnect();
+      }
+    };
   }, [ref, animationClass]);
 } 

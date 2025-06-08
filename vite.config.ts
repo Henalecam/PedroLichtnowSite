@@ -16,10 +16,14 @@ export default defineConfig({
         changeOrigin: true,
       },
     },
+    hmr: {
+      overlay: true,
+    },
   },
   root: path.resolve(__dirname, "client"),
   build: {
     outDir: path.resolve(__dirname, "client/dist"),
     emptyOutDir: true,
+    sourcemap: true,
   },
 });

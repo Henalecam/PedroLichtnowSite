@@ -1,4 +1,4 @@
-import type { Express } from "express";
+import type { Express, Request, Response, NextFunction } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { Router } from "express";
@@ -10,6 +10,13 @@ import jwt from "jsonwebtoken";
 import multer from "multer";
 import path from "path";
 import fs from "fs";
+
+interface AuthenticatedRequest extends Request {
+  user?: {
+    id: string;
+    email: string;
+  };
+}
 
 const router = Router();
 const upload = multer({
@@ -23,7 +30,7 @@ const upload = multer({
 });
 
 // Middleware de autenticação
-const authenticateToken = (req: any, res: any, next: any) => {
+const authenticateToken = (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
 
@@ -104,7 +111,7 @@ router.get("/posts/:id", async (req, res) => {
   }
 });
 
-router.post("/posts", authenticateToken, async (req, res) => {
+router.post("/posts", authenticateToken, async (req: AuthenticatedRequest, res: Response) => {
   const { title, slug, content, excerpt, status, featuredImage } = req.body;
 
   try {
@@ -115,7 +122,7 @@ router.post("/posts", authenticateToken, async (req, res) => {
       excerpt,
       status,
       featuredImage,
-      authorId: req.user.id,
+      authorId: req.user!.id,
       publishedAt: status === "published" ? new Date() : null,
     });
 
@@ -125,7 +132,7 @@ router.post("/posts", authenticateToken, async (req, res) => {
   }
 });
 
-router.put("/posts/:id", authenticateToken, async (req, res) => {
+router.put("/posts/:id", authenticateToken, async (req: AuthenticatedRequest, res: Response) => {
   const { title, slug, content, excerpt, status, featuredImage } = req.body;
 
   try {
@@ -137,7 +144,7 @@ router.put("/posts/:id", authenticateToken, async (req, res) => {
       return res.status(404).json({ error: "Post não encontrado" });
     }
 
-    if (post.authorId !== req.user.id) {
+    if (post.authorId !== req.user!.id) {
       return res.status(403).json({ error: "Não autorizado" });
     }
 
@@ -161,7 +168,7 @@ router.put("/posts/:id", authenticateToken, async (req, res) => {
   }
 });
 
-router.delete("/posts/:id", authenticateToken, async (req, res) => {
+router.delete("/posts/:id", authenticateToken, async (req: AuthenticatedRequest, res: Response) => {
   try {
     const post = await db.query.posts.findFirst({
       where: eq(posts.id, req.params.id),
@@ -171,7 +178,7 @@ router.delete("/posts/:id", authenticateToken, async (req, res) => {
       return res.status(404).json({ error: "Post não encontrado" });
     }
 
-    if (post.authorId !== req.user.id) {
+    if (post.authorId !== req.user!.id) {
       return res.status(403).json({ error: "Não autorizado" });
     }
 

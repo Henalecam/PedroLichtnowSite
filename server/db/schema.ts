@@ -1,5 +1,6 @@
 import { sql } from "drizzle-orm";
 import { text, timestamp, pgTable, uuid, boolean } from "drizzle-orm/pg-core";
+import { InferModel } from "drizzle-orm";
 
 export const users = pgTable("users", {
   id: uuid("id").defaultRandom().primaryKey(),
@@ -36,4 +37,17 @@ export const categories = pgTable("categories", {
 export const postsToCategories = pgTable("posts_to_categories", {
   postId: uuid("post_id").references(() => posts.id).notNull(),
   categoryId: uuid("category_id").references(() => categories.id).notNull(),
-}); 
+});
+
+// Type exports
+export type User = InferModel<typeof users>;
+export type NewUser = InferModel<typeof users, "insert">;
+
+export type Post = InferModel<typeof posts>;
+export type NewPost = InferModel<typeof posts, "insert">;
+
+export type Category = InferModel<typeof categories>;
+export type NewCategory = InferModel<typeof categories, "insert">;
+
+export type PostToCategory = InferModel<typeof postsToCategories>;
+export type NewPostToCategory = InferModel<typeof postsToCategories, "insert">; 

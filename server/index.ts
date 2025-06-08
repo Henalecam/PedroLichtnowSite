@@ -1,10 +1,11 @@
 import express, { type Request, Response, NextFunction } from "express";
-import { registerRoutes } from "./routes";
+import router from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { Pool } from "pg";
-import { eq } from "drizzle-orm";
+import { eq, desc } from "drizzle-orm";
 import { posts, users } from "./db/schema";
+import type { Post, NewPost } from "./db/schema";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import multer from "multer";
@@ -19,7 +20,7 @@ const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
 });
 
-const db = drizzle(pool);
+const db = drizzle(pool, { schema: { posts, users } });
 
 // Middleware
 app.use(express.json());
@@ -42,8 +43,15 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
+interface AuthenticatedRequest extends Request {
+  user?: {
+    id: string;
+    email: string;
+  };
+}
+
 // Middleware de autenticação
-const authenticateToken = (req: any, res: any, next: any) => {
+const authenticateToken = (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
 
@@ -90,8 +98,24 @@ app.use((req, res, next) => {
   next();
 });
 
+// Start the server
+const server = app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});
+
+// Setup Vite in development
+if (process.env.NODE_ENV === "development") {
+  setupVite(app, server);
+} else {
+  serveStatic(app);
+}
+
+// Export for testing
+export { app, server };
+
+// Initialize the application
 (async () => {
-  const server = await registerRoutes(app);
+  app.use("/api", router);
 
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
     const status = err.status || err.statusCode || 500;
@@ -102,26 +126,24 @@ app.use((req, res, next) => {
   });
 
   // Rotas de autenticação
-  app.post("/api/auth/login", async (req, res) => {
+  app.post("/api/auth/login", async (req: Request, res: Response) => {
     const { email, password } = req.body;
 
     try {
-      const user = await db.query.users.findFirst({
-        where: eq(users.email, email),
-      });
+      const user = await db.select().from(users).where(eq(users.email, email)).limit(1);
 
-      if (!user) {
+      if (!user.length) {
         return res.status(401).json({ error: "Credenciais inválidas" });
       }
 
-      const validPassword = await bcrypt.compare(password, user.password);
+      const validPassword = await bcrypt.compare(password, user[0].password);
 
       if (!validPassword) {
         return res.status(401).json({ error: "Credenciais inválidas" });
       }
 
       const token = jwt.sign(
-        { id: user.id, email: user.email },
+        { id: user[0].id, email: user[0].email },
         process.env.JWT_SECRET || "secret",
         { expiresIn: "24h" }
       );
@@ -134,11 +156,9 @@ app.use((req, res, next) => {
   });
 
   // Rotas de posts
-  app.get("/api/posts", async (req, res) => {
+  app.get("/api/posts", async (_req: Request, res: Response) => {
     try {
-      const allPosts = await db.query.posts.findMany({
-        orderBy: (posts, { desc }) => [desc(posts.createdAt)],
-      });
+      const allPosts = await db.select().from(posts).orderBy(desc(posts.createdAt));
       res.json(allPosts);
     } catch (error) {
       console.error("Erro ao buscar posts:", error);
@@ -163,27 +183,31 @@ app.use((req, res, next) => {
     }
   });
 
-  app.post("/api/posts", authenticateToken, async (req, res) => {
+  app.post("/api/posts", authenticateToken, async (req: AuthenticatedRequest, res) => {
     try {
       const { title, slug, content, excerpt, status, featuredImage } = req.body;
 
-      const newPost = await db.insert(posts).values({
+      const newPost: NewPost = {
         title,
         slug,
         content,
         excerpt,
         status,
         featuredImage,
-      }).returning();
+        authorId: req.user!.id,
+        publishedAt: status === "published" ? new Date() : null,
+      };
 
-      res.status(201).json(newPost[0]);
+      const result = await db.insert(posts).values(newPost).returning();
+
+      res.status(201).json(result[0]);
     } catch (error) {
       console.error("Erro ao criar post:", error);
       res.status(500).json({ error: "Erro interno do servidor" });
     }
   });
 
-  app.put("/api/posts/:id", authenticateToken, async (req, res) => {
+  app.put("/api/posts/:id", authenticateToken, async (req: AuthenticatedRequest, res) => {
     try {
       const { title, slug, content, excerpt, status, featuredImage } = req.body;
 
@@ -199,10 +223,6 @@ app.use((req, res, next) => {
         })
         .where(eq(posts.id, req.params.id))
         .returning();
-
-      if (!updatedPost.length) {
-        return res.status(404).json({ error: "Post não encontrado" });
-      }
 
       res.json(updatedPost[0]);
     } catch (error) {
@@ -236,26 +256,5 @@ app.use((req, res, next) => {
 
     const imageUrl = `/uploads/${req.file.filename}`;
     res.json({ url: imageUrl });
-  });
-
-  // importantly only setup vite in development and after
-  // setting up all the other routes so the catch-all route
-  // doesn't interfere with the other routes
-  if (app.get("env") === "development") {
-    await setupVite(app, server);
-  } else {
-    serveStatic(app);
-  }
-
-  // ALWAYS serve the app on port 5000
-  // this serves both the API and the client.
-  // It is the only port that is not firewalled.
-  const port = 5000;
-  server.listen({
-    port,
-    host: "0.0.0.0",
-    reusePort: true,
-  }, () => {
-    log(`serving on port ${port}`);
   });
 })();

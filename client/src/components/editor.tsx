@@ -1,6 +1,12 @@
 import { useEffect, useRef } from "react";
 import { Editor as TinyMCEEditor } from "tinymce";
 
+declare global {
+  interface Window {
+    tinymce: any;
+  }
+}
+
 interface EditorProps {
   value: string;
   onChange: (content: string) => void;
@@ -22,13 +28,13 @@ export default function Editor({ value, onChange, onImageUpload }: EditorProps) 
           plugins: "image code table lists link",
           toolbar: "undo redo | blocks | bold italic | alignleft aligncenter alignright | indent outdent | bullist numlist | image | code",
           height: 500,
-          setup: (editor) => {
+          setup: (editor: TinyMCEEditor) => {
             editorRef.current = editor;
             editor.on("change", () => {
               onChange(editor.getContent());
             });
           },
-          images_upload_handler: async (blobInfo) => {
+          images_upload_handler: async (blobInfo: { blob: () => File }) => {
             try {
               const file = blobInfo.blob();
               await onImageUpload(file);

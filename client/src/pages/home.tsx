@@ -7,12 +7,10 @@ import TestimonialsSection from "@/components/testimonials-section";
 import BlogSection from "@/components/blog-section";
 import ContactSection from "@/components/contact-section";
 import Footer from "@/components/footer";
-import { MetaTags } from "@/components/meta-tags";
 
 export default function Home() {
   return (
     <div className="min-h-screen">
-      <MetaTags />
       <Navigation />
       <HeroSection />
       <AboutSection />

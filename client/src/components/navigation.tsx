@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { ThemeToggle } from "./theme-toggle";
 
 export default function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -56,61 +55,53 @@ export default function Navigation() {
   };
 
   const navBg = navTheme === 'dark'
-    ? (isScrolled ? 'bg-background/80 backdrop-blur-md' : 'bg-transparent')
-    : (isScrolled ? 'bg-background/80 backdrop-blur-md' : 'bg-transparent');
-  const navText = navTheme === 'dark' ? 'text-foreground' : 'text-foreground';
+    ? (isScrolled ? 'glass-effect-dark' : 'bg-transparent')
+    : (isScrolled ? 'glass-effect' : 'bg-transparent');
+  const navText = navTheme === 'dark' ? 'text-white' : 'text-rich-black';
   const navLink = navTheme === 'dark'
-    ? 'nav-link text-foreground/90 hover:text-primary'
-    : 'nav-link text-foreground/90 hover:text-primary';
+    ? 'nav-link text-white/90 hover:text-gold'
+    : 'nav-link text-refined-gray hover:text-rich-black';
 
   return (
     <nav 
       className={`fixed top-0 w-full z-50 transition-all duration-500 ${navBg}`}
-      role="navigation"
-      aria-label="Menu principal"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
           <div className={`font-serif font-bold text-2xl ${navText} transition-colors duration-300`}>
             Pedro Lichtnow
           </div>
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden md:flex space-x-8">
             {navLinks.map((link) => (
               <button
                 key={link.href}
                 onClick={() => scrollToSection(link.href)}
                 className={`${navLink} text-sm font-medium tracking-wide transition-all duration-300`}
-                aria-label={`Ir para seção ${link.label}`}
               >
                 {link.label}
               </button>
             ))}
-            <ThemeToggle />
           </div>
-          <div className="flex items-center space-x-4 md:hidden">
-            <ThemeToggle />
-            <Sheet>
-              <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" aria-label="Abrir menu">
-                  <Menu className={`h-6 w-6 ${navText}`} />
-                </Button>
-              </SheetTrigger>
-              <SheetContent className="bg-background/95 backdrop-blur-md">
-                <div className="flex flex-col space-y-6 mt-8">
-                  {navLinks.map((link) => (
-                    <button
-                      key={link.href}
-                      onClick={() => scrollToSection(link.href)}
-                      className={`${navLink} text-lg text-left transition-all duration-300`}
-                      aria-label={`Ir para seção ${link.label}`}
-                    >
-                      {link.label}
-                    </button>
-                  ))}
-                </div>
-              </SheetContent>
-            </Sheet>
-          </div>
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button variant="ghost" className="md:hidden" size="icon">
+                <Menu className={`h-6 w-6 ${navText}`} />
+              </Button>
+            </SheetTrigger>
+            <SheetContent className="glass-effect">
+              <div className="flex flex-col space-y-6 mt-8">
+                {navLinks.map((link) => (
+                  <button
+                    key={link.href}
+                    onClick={() => scrollToSection(link.href)}
+                    className={`${navLink} text-lg text-left transition-all duration-300`}
+                  >
+                    {link.label}
+                  </button>
+                ))}
+              </div>
+            </SheetContent>
+          </Sheet>
         </div>
       </div>
     </nav>

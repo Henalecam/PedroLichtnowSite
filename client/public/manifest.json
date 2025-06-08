@@ -1,0 +1,21 @@
+{
+  "name": "Pedro Lichtnow - Escritor e Palestrante",
+  "short_name": "Pedro Lichtnow",
+  "description": "Pedro Lichtnow - Escritor e palestrante inspirando pessoas através de palavras",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "icons": [
+    {
+      "src": "/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+} 

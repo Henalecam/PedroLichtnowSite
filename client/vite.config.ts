@@ -9,21 +9,9 @@ export default defineConfig({
       "@": path.resolve(__dirname, "src"),
     },
   },
-  server: {
-    proxy: {
-      "/api": {
-        target: "http://localhost:3000",
-        changeOrigin: true,
-      },
-    },
-    hmr: {
-      overlay: true,
-    },
-  },
-  root: path.resolve(__dirname, "client"),
   build: {
-    outDir: path.resolve(__dirname, "client/dist"),
+    outDir: "dist",
     emptyOutDir: true,
     sourcemap: true,
   },
-});
+}); 

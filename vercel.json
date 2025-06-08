@@ -1,8 +1,8 @@
 {
-  "version": 2,
+  "ignoreCommand": "echo Ignorando build do backend",
   "builds": [
     {
-      "src": "package.json",
+      "src": "client/package.json",
       "use": "@vercel/static-build",
       "config": {
         "distDir": "client/dist"
@@ -16,7 +16,7 @@
     },
     {
       "src": "/(.*)",
-      "dest": "/index.html"
+      "dest": "client/$1"
     }
   ]
 }

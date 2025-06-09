@@ -11,6 +11,7 @@ import jwt from "jsonwebtoken";
 import multer from "multer";
 import path from "path";
 import fs from "fs";
+import cors from "cors";
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -67,6 +68,14 @@ const authenticateToken = (req: AuthenticatedRequest, res: Response, next: NextF
     next();
   });
 };
+
+app.use(cors({
+  origin: [
+    "https://SEU_DOMINIO.vercel.app",
+    "http://localhost:5173"
+  ],
+  credentials: true
+}));
 
 app.use((req, res, next) => {
   const start = Date.now();

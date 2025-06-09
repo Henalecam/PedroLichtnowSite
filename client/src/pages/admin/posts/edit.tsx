@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense, lazy } from "react";
 import { useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -7,10 +7,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import dynamic from "next/dynamic";
 
 // Importando o editor de forma dinâmica para evitar problemas de SSR
-const Editor = dynamic(() => import("@/components/editor"), { ssr: false });
+const Editor = lazy(() => import("@/components/editor"));
 
 interface Post {
   id?: string;
@@ -168,11 +167,13 @@ export default function PostEditor() {
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="content">Conteúdo</Label>
-                    <Editor
-                      value={post.content}
-                      onChange={(content) => setPost((prev) => ({ ...prev, content }))}
-                      onImageUpload={handleImageUpload}
-                    />
+                    <Suspense fallback={<div>Carregando editor...</div>}>
+                      <Editor
+                        value={post.content}
+                        onChange={(content) => setPost((prev) => ({ ...prev, content }))}
+                        onImageUpload={handleImageUpload}
+                      />
+                    </Suspense>
                   </div>
                 </CardContent>
               </Card>

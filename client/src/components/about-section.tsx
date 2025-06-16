@@ -37,7 +37,7 @@ export default function AboutSection() {
           <div ref={imageRef} className="relative opacity-0">
             <div className="absolute -inset-4 bg-gold/10 rounded-3xl transform rotate-3"></div>
             <img 
-              src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3" 
+              src="/pedro-lichtnow.jpg" 
               alt="Pedro Lichtnow em seu escritório" 
               className="rounded-2xl shadow-2xl w-full h-auto relative z-10"
             />
@@ -58,24 +58,24 @@ export default function AboutSection() {
           
           <div>
             <p ref={text1Ref} className="text-lg text-refined-gray mb-6 leading-relaxed opacity-0">
-              Com mais de uma década dedicada à literatura e ao desenvolvimento humano, Pedro Lichtnow é reconhecido como uma das vozes mais inspiradoras da atualidade. Sua trajetória como escritor e palestrante tem tocado milhares de vidas através de palavras que transformam e inspiram mudanças significativas.
+              Pedro Lichtnow é um escritor e palestrante brasileiro reconhecido por sua capacidade única de transformar vidas através da palavra. Com uma trajetória marcada por superação e dedicação, ele se tornou uma referência em temas como liderança, autoconhecimento e desenvolvimento pessoal.
             </p>
             
             <p ref={text2Ref} className="text-lg text-refined-gray mb-8 leading-relaxed opacity-0">
-              Especialista em temas como liderança, autoconhecimento e transformação pessoal, Pedro combina conhecimento acadêmico com experiência prática, criando conteúdos que ressoam profundamente com seu público e geram resultados mensuráveis.
+              Sua abordagem única combina experiência prática com conhecimento acadêmico, resultando em palestras e livros que inspiram e transformam a vida de milhares de pessoas. Pedro acredita que cada indivíduo tem um potencial extraordinário, e sua missão é ajudar as pessoas a descobrirem e alcançarem esse potencial.
             </p>
             
             <div ref={statsRef} className="grid grid-cols-3 gap-8 opacity-0">
               <div className="text-center p-4 rounded-xl bg-white shadow-sm hover:shadow-md transition-shadow">
-                <div className="text-3xl font-bold text-gold mb-2">12+</div>
+                <div className="text-3xl font-bold text-gold mb-2">5+</div>
                 <div className="text-sm text-refined-gray font-medium">Livros Publicados</div>
               </div>
               <div className="text-center p-4 rounded-xl bg-white shadow-sm hover:shadow-md transition-shadow">
-                <div className="text-3xl font-bold text-gold mb-2">500+</div>
+                <div className="text-3xl font-bold text-gold mb-2">200+</div>
                 <div className="text-sm text-refined-gray font-medium">Eventos Realizados</div>
               </div>
               <div className="text-center p-4 rounded-xl bg-white shadow-sm hover:shadow-md transition-shadow">
-                <div className="text-3xl font-bold text-gold mb-2">50k+</div>
+                <div className="text-3xl font-bold text-gold mb-2">20k+</div>
                 <div className="text-sm text-refined-gray font-medium">Pessoas Impactadas</div>
               </div>
             </div>

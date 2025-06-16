@@ -7,26 +7,26 @@ export default function TestimonialsSection() {
   const testimonials = [
     {
       id: 1,
-      text: "A palestra do Pedro transformou nossa visão sobre liderança. Conteúdo profundo e aplicável, com resultados visíveis em nossa equipe. A metodologia apresentada foi fundamental para o desenvolvimento dos nossos líderes.",
+      text: "A palestra do Pedro sobre liderança com propósito transformou nossa visão sobre gestão de pessoas. Sua abordagem única e conteúdo prático trouxeram resultados imediatos para nossa equipe.",
       author: "Ana Carolina Silva",
       role: "Diretora de RH, TechCorp",
-      image: "https://i.pravatar.cc/150?img=1",
+      image: "/depoimento-1.jpg",
       rating: 5
     },
     {
       id: 2,
-      text: "Seus livros me acompanham há anos. Cada leitura traz novos insights e ferramentas práticas para o crescimento pessoal. A forma como ele conecta teoria e prática é verdadeiramente inspiradora.",
+      text: "Os livros do Pedro têm sido fundamentais na minha jornada de desenvolvimento pessoal. Sua forma de conectar teoria e prática, com exemplos reais, torna o conteúdo acessível e aplicável.",
       author: "Roberto Mendes",
       role: "Empresário",
-      image: "https://i.pravatar.cc/150?img=2",
+      image: "/depoimento-2.jpg",
       rating: 5
     },
     {
       id: 3,
-      text: "Evento excepcional! Pedro conseguiu engajar uma plateia de 500 pessoas do início ao fim. Conteúdo inspirador e transformador que continua gerando resultados positivos em nossa organização.",
+      text: "O workshop de transformação pessoal superou todas as expectativas. Pedro conseguiu criar um ambiente seguro e inspirador, onde todos puderam compartilhar e crescer juntos.",
       author: "Mariana Costa",
       role: "Organizadora de Eventos",
-      image: "https://i.pravatar.cc/150?img=3",
+      image: "/depoimento-3.jpg",
       rating: 5
     }
   ];
@@ -55,7 +55,7 @@ export default function TestimonialsSection() {
             Histórias de Transformação
           </h2>
           <p ref={descRef} className="text-lg text-refined-gray max-w-2xl mx-auto opacity-0">
-            Veja o que leitores e organizadores de eventos falam sobre o impacto do trabalho de Pedro em suas vidas e organizações.
+            Veja o que leitores, participantes de palestras e organizadores de eventos falam sobre o impacto do trabalho de Pedro em suas vidas e organizações.
           </p>
         </div>
         

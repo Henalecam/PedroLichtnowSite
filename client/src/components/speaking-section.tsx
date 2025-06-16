@@ -12,27 +12,27 @@ export default function SpeakingSection() {
 
   const topics = [
     {
-      title: "Liderança Transformacional",
-      description: "Desenvolva competências de liderança que inspiram equipes e geram resultados excepcionais através da influência positiva.",
+      title: "Liderança com Propósito",
+      description: "Desenvolva competências de liderança que inspiram equipes e geram resultados excepcionais através da influência positiva e do propósito.",
       icon: Users
     },
     {
-      title: "Autoconhecimento e Propósito",
-      description: "Uma jornada introspectiva para descobrir seus valores essenciais e alinhar suas ações com seu propósito de vida.",
+      title: "Transformação Pessoal",
+      description: "Uma jornada introspectiva para descobrir seus valores essenciais, superar limitações e alcançar seu potencial máximo.",
       icon: Target
     },
     {
-      title: "Transformação Organizacional",
-      description: "Estratégias práticas para criar culturas organizacionais mais humanas, produtivas e orientadas para o crescimento.",
+      title: "Cultura Organizacional",
+      description: "Estratégias práticas para criar ambientes de trabalho mais humanos, produtivos e orientados para o crescimento contínuo.",
       icon: Award
     }
   ];
 
   const stats = [
-    { number: "500+", label: "Eventos Realizados" },
-    { number: "50k+", label: "Pessoas Impactadas" },
+    { number: "200+", label: "Eventos Realizados" },
+    { number: "20k+", label: "Pessoas Impactadas" },
     { number: "98%", label: "Satisfação" },
-    { number: "100+", label: "Empresas Atendidas" }
+    { number: "50+", label: "Empresas Atendidas" }
   ];
 
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -83,7 +83,7 @@ export default function SpeakingSection() {
           <div ref={imageRef} className="relative opacity-0">
             <div className="absolute -inset-4 bg-gold/10 rounded-3xl transform -rotate-3"></div>
             <img 
-              src="https://images.unsplash.com/photo-1559223607-b4d0555ae227?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600" 
+              src="/palestra.jpg" 
               alt="Pedro Lichtnow palestrando para uma plateia" 
               className="rounded-2xl shadow-2xl w-full h-auto relative z-10"
             />

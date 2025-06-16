@@ -8,9 +8,9 @@ export default function BooksSection() {
   const books = [
     {
       id: 1,
-      title: "O Caminho da Transformação",
+      title: "O Poder da Transformação",
       description: "Uma jornada profunda pelos processos internos que nos levam à verdadeira mudança e ao crescimento pessoal sustentável.",
-      image: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=600",
+      image: "/livro-1.jpg",
       purchaseUrl: "https://amazon.com.br",
       rating: 4.9,
       reviews: 128,
@@ -18,9 +18,9 @@ export default function BooksSection() {
     },
     {
       id: 2,
-      title: "Liderança Autêntica",
-      description: "Descobra como liderar com propósito, influenciando positivamente pessoas e organizações através da autenticidade.",
-      image: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=600",
+      title: "Liderança com Propósito",
+      description: "Descubra como liderar com propósito, influenciando positivamente pessoas e organizações através da autenticidade.",
+      image: "/livro-2.jpg",
       purchaseUrl: "https://amazon.com.br",
       rating: 4.8,
       reviews: 95,
@@ -28,9 +28,9 @@ export default function BooksSection() {
     },
     {
       id: 3,
-      title: "Mindset Inovador",
+      title: "Despertando seu Potencial",
       description: "Desenvolva uma mentalidade que abraça a mudança e transforma desafios em oportunidades de crescimento.",
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=600",
+      image: "/livro-3.jpg",
       purchaseUrl: "https://amazon.com.br",
       rating: 4.7,
       reviews: 76,

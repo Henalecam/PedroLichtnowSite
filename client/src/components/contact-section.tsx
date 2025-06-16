@@ -11,7 +11,7 @@ export default function ContactSection() {
   };
 
   const handleEmailContact = () => {
-    window.open("mailto:pedro@pedrolichtnow.com");
+    window.open("mailto:contato@pedrolichtnow.com.br");
   };
 
   const socialLinks = [
@@ -19,19 +19,19 @@ export default function ContactSection() {
       icon: "fab fa-instagram", 
       href: "https://instagram.com/pedrolichtnow",
       label: "Instagram",
-      followers: "50k+"
+      followers: "20k+"
     },
     { 
       icon: "fab fa-youtube", 
       href: "https://youtube.com/pedrolichtnow",
       label: "YouTube",
-      followers: "100k+"
+      followers: "50k+"
     },
     { 
       icon: "fab fa-linkedin", 
       href: "https://linkedin.com/in/pedrolichtnow",
       label: "LinkedIn",
-      followers: "25k+"
+      followers: "15k+"
     }
   ];
 
@@ -46,7 +46,7 @@ export default function ContactSection() {
     {
       icon: Mail,
       title: "E-mail",
-      description: "pedro@pedrolichtnow.com",
+      description: "contato@pedrolichtnow.com.br",
       action: handleEmailContact,
       color: "bg-wine hover:bg-red-800"
     },
@@ -114,7 +114,7 @@ export default function ContactSection() {
               </h3>
               <p className="text-white/80 mb-6">
                 Preencha o formulário ao lado e conte-me mais sobre sua ideia. 
-                Estou aqui para ajudar a transformar sua visão em realidade.
+                Estou aqui para ajudar a transformar sua visão em realidade através de palestras, mentorias e consultorias.
               </p>
               <div className="flex items-center gap-4 text-white/80">
                 <MapPin className="w-5 h-5 text-gold" />

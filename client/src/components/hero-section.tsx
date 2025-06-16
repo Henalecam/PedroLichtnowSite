@@ -2,6 +2,7 @@ import { ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useRef } from "react";
 import useScrollReveal from "@/hooks/useScrollReveal";
+import { ArrowRight } from "lucide-react";
 
 export default function HeroSection() {
   const ref = useRef<HTMLDivElement>(null);
@@ -37,11 +38,11 @@ export default function HeroSection() {
         </h1>
         
         <p className="text-xl md:text-2xl text-white/90 mb-4 font-light animate-slide-up">
-          Escritor | Palestrante | Mentor
+          Escritor, palestrante existencialista e mentor de transformação. Com uma trajetória dedicada à consciência, à comunicação autêntica e ao desenvolvimento humano, atua como ponte entre conhecimento profundo e impacto real no mundo.
         </p>
         
         <p className="text-lg text-white/80 mb-12 max-w-2xl mx-auto animate-slide-up">
-          Inspirando pessoas a alcançarem seu potencial máximo através de histórias transformadoras e palestras motivacionais.
+          Autor de obras que exploram os dilemas humanos, a inteligência emocional e os ciclos da existência, Pedro é também CEO da Editora Personalidade e do Instituto Personalidade – Evolução Humana. Seus trabalhos integram saberes da neurociência, física quântica, filosofia, narrativa e espiritualidade aplicada.
         </p>
         
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">

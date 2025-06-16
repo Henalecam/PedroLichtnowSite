@@ -1,7 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
+import { useRef } from "react";
+import useScrollReveal from "@/hooks/useScrollReveal";
 
-export function BooksSection() {
+export default function BooksSection() {
+  const ref = useRef<HTMLDivElement>(null);
+  useScrollReveal(ref, "animate-fade-in");
+
   const books = [
     {
       title: "Som da Sacada",
@@ -27,8 +32,8 @@ export function BooksSection() {
   ];
 
   return (
-    <section id="books" className="py-20 bg-gray-50">
-      <div className="container mx-auto px-4">
+    <section id="livros" className="py-20 bg-gray-50">
+      <div ref={ref} className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-4xl font-bold mb-4">Livros</h2>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
@@ -46,7 +51,7 @@ export function BooksSection() {
                   className="w-full h-[400px] object-cover"
                 />
                 <div className="absolute top-4 right-4">
-                  <span className="bg-primary text-white px-3 py-1 rounded-full text-sm">
+                  <span className="bg-gold text-rich-black px-3 py-1 rounded-full text-sm font-semibold">
                     {book.status}
                   </span>
                 </div>
@@ -55,9 +60,9 @@ export function BooksSection() {
                 <h3 className="text-2xl font-semibold mb-2">{book.title}</h3>
                 <p className="text-lg text-gray-600 mb-2">{book.subtitle}</p>
                 <p className="text-gray-600 mb-6">{book.description}</p>
-                <Button variant="outline" className="w-full group">
+                <Button className="w-full bg-gold hover:bg-yellow-500 text-rich-black font-semibold">
                   Saiba mais
-                  <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                  <ArrowRight className="ml-2 w-4 h-4" />
                 </Button>
               </div>
             </div>

@@ -10,7 +10,7 @@ export default function HeroSection() {
 
   const handleWhatsAppContact = () => {
     const message = "Olá Pedro, gostaria de mais informações sobre seu trabalho.";
-    const whatsappUrl = `https://wa.me/5511999999999?text=${encodeURIComponent(message)}`;
+    const whatsappUrl = `https://wa.me/5541988224524?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, "_blank");
   };
 

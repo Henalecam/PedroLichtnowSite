@@ -1,7 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
+import { useRef } from "react";
+import useScrollReveal from "@/hooks/useScrollReveal";
 
-export function SpeakingSection() {
+export default function SpeakingSection() {
+  const ref = useRef<HTMLDivElement>(null);
+  useScrollReveal(ref, "animate-fade-in");
+
   const topics = [
     {
       title: "O Poder da Consciência",
@@ -31,8 +36,8 @@ export function SpeakingSection() {
   ];
 
   return (
-    <section id="speaking" className="py-20 bg-white">
-      <div className="container mx-auto px-4">
+    <section id="palestras" className="py-20 bg-white">
+      <div ref={ref} className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-4xl font-bold mb-4">Palestras Evolutivas</h2>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
@@ -46,9 +51,9 @@ export function SpeakingSection() {
               <div className="text-4xl mb-4">{topic.icon}</div>
               <h3 className="text-2xl font-semibold mb-4">{topic.title}</h3>
               <p className="text-gray-600 mb-6">{topic.description}</p>
-              <Button variant="outline" className="w-full group">
+              <Button className="w-full bg-gold hover:bg-yellow-500 text-rich-black font-semibold">
                 Saiba mais
-                <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                <ArrowRight className="ml-2 w-4 h-4" />
               </Button>
             </div>
           ))}
@@ -58,7 +63,7 @@ export function SpeakingSection() {
           <p className="text-gray-600 mb-6">
             Para mais informações ou agendamento, entre em contato através do formulário na seção Contato ou envie um e-mail para contato@pedrolichtnow.com
           </p>
-          <Button size="lg">
+          <Button size="lg" className="bg-gold hover:bg-yellow-500 text-rich-black font-semibold">
             Agendar Palestra
           </Button>
         </div>

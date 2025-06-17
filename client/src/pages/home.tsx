@@ -5,7 +5,8 @@ import BooksSection from "@/components/books-section";
 import SpeakingSection from "@/components/speaking-section";
 import TestimonialsSection from "@/components/testimonials-section";
 import BlogSection from "@/components/blog-section";
-import ContactSection from "@/components/contact-section";
+import { ContactSection } from "@/components/contact-section";
+import ExperiencesSection from "@/components/experiences-section";
 import Footer from "@/components/footer";
 
 export default function Home() {
@@ -16,6 +17,7 @@ export default function Home() {
       <AboutSection />
       <BooksSection />
       <SpeakingSection data-theme="dark" />
+      <ExperiencesSection data-theme="dark" />
       <TestimonialsSection />
       <BlogSection />
       <ContactSection data-theme="dark" />

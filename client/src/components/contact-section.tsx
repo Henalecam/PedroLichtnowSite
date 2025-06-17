@@ -1,55 +1,73 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Mail, MapPin, Phone } from "lucide-react";
+import { Mail, MapPin, Phone, MessageCircle } from "lucide-react";
+import { useRef } from "react";
+import useScrollReveal from "@/hooks/useScrollReveal";
 
 export function ContactSection() {
+  const ref = useRef<HTMLDivElement>(null);
+  useScrollReveal(ref, "animate-fade-in");
+
+  const handleWhatsAppContact = () => {
+    const message = "Olá Pedro, gostaria de mais informações sobre seu trabalho.";
+    const whatsappUrl = `https://wa.me/5541988224524?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, "_blank");
+  };
+
   return (
-    <section id="contact" className="py-20 bg-gray-50">
-      <div className="container mx-auto px-4">
+    <section id="contact" className="py-24 bg-gradient-to-b from-gray-900 to-black" data-theme="dark">
+      <div ref={ref} className="container mx-auto px-4">
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold mb-4">Entre em Contato</h2>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Atendimentos presenciais em Curitiba/PR e online para todo o Brasil e exterior.
+          <span className="text-gold font-medium mb-4 block">Contato</span>
+          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white">Entre em Contato</h2>
+          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+            Atendimentos presenciais em Curitiba/PR e online para todo o Brasil e exterior
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-          <div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
+          <div className="space-y-12">
             <div className="space-y-8">
-              <div className="flex items-start space-x-4">
-                <Mail className="w-6 h-6 text-primary mt-1" />
+              <div className="flex items-start space-x-6">
+                <div className="bg-gray-800/50 p-4 rounded-xl">
+                  <Mail className="w-8 h-8 text-gold" />
+                </div>
                 <div>
-                  <h3 className="text-lg font-semibold mb-2">Email</h3>
-                  <p className="text-gray-600">contato@pedrolichtnow.com.br</p>
+                  <h3 className="text-xl font-semibold mb-2 text-white">Email</h3>
+                  <p className="text-gray-300">contato@pedrolichtnow.com.br</p>
                 </div>
               </div>
 
-              <div className="flex items-start space-x-4">
-                <Phone className="w-6 h-6 text-primary mt-1" />
+              <div className="flex items-start space-x-6">
+                <div className="bg-gray-800/50 p-4 rounded-xl">
+                  <Phone className="w-8 h-8 text-gold" />
+                </div>
                 <div>
-                  <h3 className="text-lg font-semibold mb-2">Telefone</h3>
-                  <p className="text-gray-600">(41) 98822-4524</p>
+                  <h3 className="text-xl font-semibold mb-2 text-white">Telefone</h3>
+                  <p className="text-gray-300">(41) 98822-4524</p>
                 </div>
               </div>
 
-              <div className="flex items-start space-x-4">
-                <MapPin className="w-6 h-6 text-primary mt-1" />
+              <div className="flex items-start space-x-6">
+                <div className="bg-gray-800/50 p-4 rounded-xl">
+                  <MapPin className="w-8 h-8 text-gold" />
+                </div>
                 <div>
-                  <h3 className="text-lg font-semibold mb-2">Localização</h3>
-                  <p className="text-gray-600">Curitiba, Paraná - Brasil</p>
+                  <h3 className="text-xl font-semibold mb-2 text-white">Localização</h3>
+                  <p className="text-gray-300">Curitiba, Paraná - Brasil</p>
                 </div>
               </div>
             </div>
 
-            <div className="mt-12">
-              <h3 className="text-xl font-semibold mb-4">Redes Sociais</h3>
-              <div className="flex space-x-4">
+            <div>
+              <h3 className="text-2xl font-semibold mb-6 text-white">Redes Sociais</h3>
+              <div className="flex space-x-6">
                 <a
                   href="https://instagram.com/pedrolichtnow"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-gray-600 hover:text-primary transition-colors"
+                  className="bg-gray-800/50 p-4 rounded-xl text-gray-300 hover:text-gold transition-colors duration-300"
                 >
                   <svg
                     className="w-6 h-6"
@@ -68,7 +86,7 @@ export function ContactSection() {
                   href="https://linkedin.com/in/pedrolichtnow"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-gray-600 hover:text-primary transition-colors"
+                  className="bg-gray-800/50 p-4 rounded-xl text-gray-300 hover:text-gold transition-colors duration-300"
                 >
                   <svg
                     className="w-6 h-6"
@@ -81,15 +99,23 @@ export function ContactSection() {
                 </a>
               </div>
             </div>
+
+            <Button 
+              onClick={handleWhatsAppContact}
+              className="w-full bg-gold hover:bg-yellow-500 text-rich-black font-semibold px-8 py-6 text-lg rounded-lg transition-all duration-300"
+            >
+              <MessageCircle className="w-5 h-5 mr-2" />
+              Falar no WhatsApp
+            </Button>
           </div>
 
-          <div className="bg-white p-8 rounded-lg shadow-lg">
-            <h3 className="text-2xl font-semibold mb-6">Envie uma Mensagem</h3>
+          <div className="bg-gray-800/50 backdrop-blur-sm p-8 rounded-xl border border-gray-700/50">
+            <h3 className="text-2xl font-semibold mb-6 text-white">Envie uma Mensagem</h3>
             <form className="space-y-6">
               <div>
                 <label
                   htmlFor="name"
-                  className="block text-sm font-medium text-gray-700 mb-1"
+                  className="block text-sm font-medium text-gray-300 mb-2"
                 >
                   Nome
                 </label>
@@ -98,13 +124,14 @@ export function ContactSection() {
                   type="text"
                   placeholder="Seu nome completo"
                   required
+                  className="bg-gray-900/50 border-gray-700 text-white placeholder-gray-400 focus:border-gold focus:ring-gold"
                 />
               </div>
 
               <div>
                 <label
                   htmlFor="email"
-                  className="block text-sm font-medium text-gray-700 mb-1"
+                  className="block text-sm font-medium text-gray-300 mb-2"
                 >
                   Email
                 </label>
@@ -113,13 +140,14 @@ export function ContactSection() {
                   type="email"
                   placeholder="seu@email.com"
                   required
+                  className="bg-gray-900/50 border-gray-700 text-white placeholder-gray-400 focus:border-gold focus:ring-gold"
                 />
               </div>
 
               <div>
                 <label
                   htmlFor="subject"
-                  className="block text-sm font-medium text-gray-700 mb-1"
+                  className="block text-sm font-medium text-gray-300 mb-2"
                 >
                   Assunto
                 </label>
@@ -128,13 +156,14 @@ export function ContactSection() {
                   type="text"
                   placeholder="Assunto da mensagem"
                   required
+                  className="bg-gray-900/50 border-gray-700 text-white placeholder-gray-400 focus:border-gold focus:ring-gold"
                 />
               </div>
 
               <div>
                 <label
                   htmlFor="message"
-                  className="block text-sm font-medium text-gray-700 mb-1"
+                  className="block text-sm font-medium text-gray-300 mb-2"
                 >
                   Mensagem
                 </label>
@@ -143,10 +172,14 @@ export function ContactSection() {
                   placeholder="Sua mensagem"
                   rows={6}
                   required
+                  className="bg-gray-900/50 border-gray-700 text-white placeholder-gray-400 focus:border-gold focus:ring-gold"
                 />
               </div>
 
-              <Button type="submit" className="w-full">
+              <Button 
+                type="submit" 
+                className="w-full bg-gold hover:bg-yellow-500 text-rich-black font-semibold px-8 py-6 text-lg rounded-lg transition-all duration-300"
+              >
                 Enviar Mensagem
               </Button>
             </form>

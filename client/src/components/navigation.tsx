@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
@@ -40,11 +40,11 @@ export default function Navigation() {
   const navLinks = [
     { href: "#inicio", label: "Início" },
     { href: "#sobre", label: "Sobre" },
+    { href: "#servicos", label: "Serviços" },
     { href: "#livros", label: "Livros" },
     { href: "#palestras", label: "Palestras" },
     { href: "#depoimentos", label: "Depoimentos" },
     { href: "#blog", label: "Blog" },
-    { href: "#contato", label: "Contato" },
   ];
 
   const scrollToSection = (href: string) => {
@@ -52,6 +52,12 @@ export default function Navigation() {
     if (element) {
       element.scrollIntoView({ behavior: "smooth" });
     }
+  };
+
+  const handleWhatsAppContact = () => {
+    const message = "Olá Pedro, gostaria de mais informações sobre seu trabalho.";
+    const whatsappUrl = `https://wa.me/5541988224524?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, "_blank");
   };
 
   const navBg = navTheme === 'dark'
@@ -71,7 +77,7 @@ export default function Navigation() {
           <div className={`font-serif font-bold text-2xl ${navText} transition-colors duration-300`}>
             Pedro Lichtnow
           </div>
-          <div className="hidden md:flex space-x-8">
+          <div className="hidden md:flex items-center space-x-8">
             {navLinks.map((link) => (
               <button
                 key={link.href}
@@ -81,6 +87,13 @@ export default function Navigation() {
                 {link.label}
               </button>
             ))}
+            <Button 
+              onClick={handleWhatsAppContact}
+              className="bg-gold hover:bg-yellow-500 text-rich-black font-semibold px-6 py-2 rounded-lg transition-all duration-300"
+            >
+              <MessageCircle className="w-4 h-4 mr-2" />
+              Contato
+            </Button>
           </div>
           <Sheet>
             <SheetTrigger asChild>
@@ -99,6 +112,13 @@ export default function Navigation() {
                     {link.label}
                   </button>
                 ))}
+                <Button 
+                  onClick={handleWhatsAppContact}
+                  className="bg-gold hover:bg-yellow-500 text-rich-black font-semibold px-6 py-3 rounded-lg transition-all duration-300 mt-4"
+                >
+                  <MessageCircle className="w-5 h-5 mr-2" />
+                  Contato
+                </Button>
               </div>
             </SheetContent>
           </Sheet>

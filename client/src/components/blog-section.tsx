@@ -5,89 +5,50 @@ import { useRef } from "react";
 import useScrollReveal from "@/hooks/useScrollReveal";
 
 export default function BlogSection() {
-  const blogPosts = [
+  const articles = [
     {
-      id: 1,
-      title: "5 Pilares da Liderança Transformacional",
-      excerpt: "Descubra os fundamentos essenciais que todo líder precisa dominar para inspirar verdadeiras mudanças em suas equipes e organizações.",
-      content: "A liderança transformacional vai além de simplesmente gerenciar pessoas. Ela envolve inspirar, motivar e capacitar indivíduos a alcançarem seu potencial máximo...",
-      date: "28 de maio, 2025",
-      readTime: "8 min",
-      category: "Liderança",
-      image: "https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
-      featured: true,
-      views: 1250,
-      comments: 48
+      title: "Alma e Destino",
+      excerpt: "A alma humana incide sobre a verdade e compromisso, antes de tudo, com ela mesma. O mundo, reforçou ainda o destino, passa em um piscar de olhos, como um sorriso instantâneo.",
+      date: "15 de Março, 2024",
+      image: "/blog-1.jpg",
+      tags: ["destino", "existencialismo", "verdadesdaalma"]
     },
     {
-      id: 2,
-      title: "O Mindset do Crescimento Pessoal",
-      excerpt: "Como desenvolver uma mentalidade que abraça desafios e transforma obstáculos em oportunidades de evolução.",
-      content: "O crescimento pessoal não acontece por acaso. Requer uma mudança fundamental na forma como vemos os desafios e as dificuldades...",
-      date: "25 de maio, 2025",
-      readTime: "6 min",
-      category: "Desenvolvimento Pessoal",
-      image: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
-      featured: false,
-      views: 980,
-      comments: 32
+      title: "Fogo e Realização",
+      excerpt: "De onde vem o fogo da realização? Certamente, da chama interna e do mais profundo desejo subjetivo. Quando há chama, clama-se e tudo flameja na mente e no coração.",
+      date: "10 de Março, 2024",
+      image: "/blog-2.jpg",
+      tags: ["chamadarealização", "existencialismo", "fogoeinspiração"]
     },
     {
-      id: 3,
-      title: "Comunicação Autêntica: A Arte de Se Conectar",
-      excerpt: "Aprenda técnicas para desenvolver uma comunicação mais genuína e impactante em suas relações pessoais e profissionais.",
-      content: "A comunicação autêntica é a base de relacionamentos sólidos e liderança eficaz. Ela vai além das palavras...",
-      date: "22 de maio, 2025",
-      readTime: "5 min",
-      category: "Comunicação",
-      image: "https://images.unsplash.com/photo-1517048676732-d65bc937f952?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
-      featured: false,
-      views: 850,
-      comments: 28
+      title: "Medos, Egos e o Caminho",
+      excerpt: "Na vida, duas grandes verdades, quase sempre certas, fazem qualquer um de nós perder-se no caminho: nossos medos ou nosso ego.",
+      date: "5 de Março, 2024",
+      image: "/blog-3.jpg",
+      tags: ["verdadesdavida", "existencialismo", "poderdaconsciência"]
     },
     {
-      id: 4,
-      title: "Resiliência: Transformando Adversidades em Força",
-      excerpt: "Estratégias práticas para desenvolver resiliência emocional e mental diante dos desafios da vida moderna.",
-      content: "A resiliência não é uma característica fixa, mas uma habilidade que pode ser desenvolvida e fortalecida ao longo do tempo...",
-      date: "20 de maio, 2025",
-      readTime: "7 min",
-      category: "Resiliência",
-      image: "https://images.unsplash.com/photo-1469474968028-56623f02e42e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
-      featured: false,
-      views: 720,
-      comments: 25
+      title: "Consciência Artificial",
+      excerpt: "Se tudo é frequência, conforme os princípios da física quântica, a Inteligência Artificial também é um nível ou padrão de frequência.",
+      date: "1 de Março, 2024",
+      image: "/blog-4.jpg",
+      tags: ["inteligênciaartificial", "consciênciauniversal", "futurodahumanidade"]
     },
     {
-      id: 5,
-      title: "Propósito de Vida: Encontrando Seu Norte",
-      excerpt: "Uma jornada reflexiva para descobrir seu propósito único e alinhar suas ações com seus valores mais profundos.",
-      content: "Encontrar um propósito de vida é uma das questões mais fundamentais da existência humana...",
-      date: "18 de maio, 2025",
-      readTime: "9 min",
-      category: "Propósito",
-      image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
-      featured: false,
-      views: 650,
-      comments: 22
+      title: "Diálogo com a Solidão",
+      excerpt: "Quando o homem aprende a conversar com a solidão dele, nada mais parece intransponível. Quando não existe nada envolta, apenas o silêncio da alma e o eco da razão.",
+      date: "25 de Fevereiro, 2024",
+      image: "/blog-5.jpg",
+      tags: ["resilienciahumana", "existencialismo", "poderdaconsciência"]
     },
     {
-      id: 6,
-      title: "Inteligência Emocional no Ambiente de Trabalho",
-      excerpt: "Como aplicar os princípios da inteligência emocional para criar um ambiente de trabalho mais harmonioso e produtivo.",
-      content: "A inteligência emocional tem se tornado uma das competências mais valorizadas no mercado de trabalho...",
-      date: "15 de maio, 2025",
-      readTime: "6 min",
-      category: "Inteligência Emocional",
-      image: "https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
-      featured: false,
-      views: 580,
-      comments: 19
+      title: "Tempos Apagados",
+      excerpt: "Não existem ainda explicações lógicas ou confirmadas sobre o apagão internacional na Europa, em Portugal e na Espanha.",
+      date: "20 de Fevereiro, 2024",
+      image: "/blog-6.jpg",
+      tags: ["temposdemudança", "existencialismo", "apagãoeuropa"]
     }
   ];
-
-  const featuredPost = blogPosts.find(post => post.featured);
-  const regularPosts = blogPosts.filter(post => !post.featured);
 
   const sectionRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
@@ -120,122 +81,36 @@ export default function BlogSection() {
           </p>
         </div>
 
-        {/* Featured Post */}
-        {featuredPost && (
-          <div ref={featuredRef} className="mb-16 opacity-0">
-            <Card className="group cursor-pointer overflow-hidden bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300">
-              <div className="grid lg:grid-cols-2 gap-0">
-                <div className="relative h-64 lg:h-auto">
-                  <img 
-                    src={featuredPost.image}
-                    alt={featuredPost.title}
-                    className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-300"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent transform group-hover:scale-105 transition-transform duration-300"></div>
-                  <div className="absolute top-4 left-4">
-                    <span className="bg-gold text-rich-black px-3 py-1 rounded-full text-sm font-semibold">
-                      Destaque
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {articles.map((article, index) => (
+            <article key={index} className="bg-white rounded-lg overflow-hidden shadow-lg">
+              <img
+                src={article.image}
+                alt={article.title}
+                className="w-full h-48 object-cover"
+              />
+              <div className="p-6">
+                <div className="flex gap-2 mb-4">
+                  {article.tags.map((tag, tagIndex) => (
+                    <span
+                      key={tagIndex}
+                      className="text-sm text-primary bg-primary/10 px-2 py-1 rounded"
+                    >
+                      #{tag}
                     </span>
-                  </div>
+                  ))}
                 </div>
-                <CardContent className="p-8 flex flex-col justify-center">
-                  <div className="flex items-center space-x-4 mb-4 text-sm text-refined-gray">
-                    <span className="bg-wine/10 text-wine px-3 py-1 rounded-full font-medium">
-                      {featuredPost.category}
-                    </span>
-                    <div className="flex items-center space-x-1">
-                      <Calendar className="w-4 h-4" />
-                      <span>{featuredPost.date}</span>
-                    </div>
-                    <div className="flex items-center space-x-1">
-                      <Clock className="w-4 h-4" />
-                      <span>{featuredPost.readTime}</span>
-                    </div>
-                  </div>
-                  <h3 className="font-serif text-2xl lg:text-3xl font-bold text-rich-black mb-4 group-hover:text-gold transition-colors">
-                    {featuredPost.title}
-                  </h3>
-                  <p className="text-refined-gray mb-6 leading-relaxed">
-                    {featuredPost.excerpt}
-                  </p>
-                  <div className="flex items-center gap-6 mb-6 text-sm text-refined-gray">
-                    <div className="flex items-center gap-2">
-                      <Users className="w-4 h-4" />
-                      <span>{featuredPost.views} leitores</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <TrendingUp className="w-4 h-4" />
-                      <span>{featuredPost.comments} comentários</span>
-                    </div>
-                  </div>
-                  <Button className="bg-gold hover:bg-yellow-500 text-rich-black font-semibold self-start group">
-                    Ler artigo completo
+                <h3 className="text-xl font-semibold mb-2">{article.title}</h3>
+                <p className="text-gray-600 mb-4">{article.excerpt}</p>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-gray-500">{article.date}</span>
+                  <Button variant="ghost" className="group">
+                    Ler mais
                     <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
                   </Button>
-                </CardContent>
-              </div>
-            </Card>
-          </div>
-        )}
-
-        {/* Regular Posts Grid */}
-        <div ref={postsRef} className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12 opacity-0">
-          {regularPosts.map((post) => (
-            <Card key={post.id} className="group cursor-pointer bg-white rounded-xl shadow-lg overflow-hidden h-full hover:shadow-xl transition-all duration-300">
-              <div className="relative h-48">
-                <img 
-                  src={post.image}
-                  alt={post.title}
-                  className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-300"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent transform group-hover:scale-105 transition-transform duration-300"></div>
-                <div className="absolute top-3 left-3">
-                  <span className="bg-white/90 text-rich-black px-2 py-1 rounded-full text-xs font-medium">
-                    {post.category}
-                  </span>
                 </div>
               </div>
-              
-              <CardContent className="p-6 flex flex-col h-full">
-                <div className="flex items-center space-x-3 mb-3 text-xs text-refined-gray">
-                  <div className="flex items-center space-x-1">
-                    <Calendar className="w-3 h-3" />
-                    <span>{post.date}</span>
-                  </div>
-                  <div className="flex items-center space-x-1">
-                    <Clock className="w-3 h-3" />
-                    <span>{post.readTime}</span>
-                  </div>
-                </div>
-                
-                <h3 className="font-serif text-lg font-bold text-rich-black mb-3 line-clamp-2 group-hover:text-gold transition-colors">
-                  {post.title}
-                </h3>
-                
-                <p className="text-refined-gray text-sm leading-relaxed mb-4 flex-grow">
-                  {post.excerpt}
-                </p>
-
-                <div className="flex items-center gap-4 mb-4 text-xs text-refined-gray">
-                  <div className="flex items-center gap-1">
-                    <Users className="w-3 h-3" />
-                    <span>{post.views} leitores</span>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <TrendingUp className="w-3 h-3" />
-                    <span>{post.comments} comentários</span>
-                  </div>
-                </div>
-                
-                <Button 
-                  variant="outline" 
-                  className="border-gold text-gold hover:bg-gold hover:text-rich-black self-start group text-sm"
-                >
-                  Ler mais
-                  <ArrowRight className="w-3 h-3 ml-2 group-hover:translate-x-1 transition-transform" />
-                </Button>
-              </CardContent>
-            </Card>
+            </article>
           ))}
         </div>
 

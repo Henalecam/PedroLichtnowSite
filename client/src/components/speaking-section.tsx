@@ -65,7 +65,7 @@ export default function SpeakingSection() {
   return (
     <section id="palestras" className="py-24 bg-gradient-to-b from-gray-900 via-black to-gray-900 relative overflow-hidden" data-theme="dark">
       {/* Background decoration */}
-      <div className="absolute inset-0 opacity-10">
+      <div className="absolute inset-0 opacity-20">
         <div className="absolute top-0 left-0 w-96 h-96 bg-gold rounded-full filter blur-3xl"></div>
         <div className="absolute bottom-0 right-0 w-96 h-96 bg-gold rounded-full filter blur-3xl"></div>
       </div>
@@ -73,14 +73,14 @@ export default function SpeakingSection() {
       <div ref={ref} className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-16">
           <div className="flex justify-center mb-6">
-            <div className="w-16 h-16 bg-gold/20 rounded-full flex items-center justify-center">
+            <div className="w-16 h-16 bg-gold/30 rounded-full flex items-center justify-center backdrop-blur-sm">
               <Mic className="w-8 h-8 text-gold" />
             </div>
           </div>
           <h2 className="text-4xl md:text-5xl font-serif font-bold mb-6 text-white">
             Palestras Transformadoras
           </h2>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-xl text-gray-200 max-w-3xl mx-auto leading-relaxed">
             Experiências presenciais e online que despertam consciências, expandem perspectivas 
             e catalisam transformações profundas em indivíduos e organizações
           </p>
@@ -90,10 +90,10 @@ export default function SpeakingSection() {
           {talks.map((talk, index) => (
             <div 
               key={index} 
-              className="group relative bg-gradient-to-br from-gray-800/80 to-gray-900/80 backdrop-blur-sm p-8 rounded-2xl border border-gray-700/50 hover:border-gold/50 transition-all duration-500 hover:transform hover:-translate-y-2 hover:shadow-2xl hover:shadow-gold/10"
+              className="group relative bg-gradient-to-br from-gray-800/90 to-gray-900/90 backdrop-blur-sm p-8 rounded-2xl border border-gray-700/60 hover:border-gold/60 transition-all duration-500 hover:transform hover:-translate-y-2 hover:shadow-2xl hover:shadow-gold/20"
             >
               {/* Icon background glow */}
-              <div className="absolute top-8 left-8 w-16 h-16 bg-gold/20 rounded-full filter blur-xl group-hover:bg-gold/30 transition-all duration-500"></div>
+              <div className="absolute top-8 left-8 w-16 h-16 bg-gold/30 rounded-full filter blur-xl group-hover:bg-gold/40 transition-all duration-500"></div>
               
               <div className="relative mb-6 text-gold">
                 {talk.icon}
@@ -103,32 +103,32 @@ export default function SpeakingSection() {
                 {talk.title}
               </h3>
               <p className="text-gold-light text-lg mb-4 font-medium">{talk.subtitle}</p>
-              <p className="text-gray-300 mb-6 leading-relaxed">{talk.description}</p>
+              <p className="text-gray-200 mb-6 leading-relaxed">{talk.description}</p>
               
               <div className="flex flex-wrap gap-2 mb-6">
                 {talk.tags.map((tag, i) => (
                   <span 
                     key={i}
-                    className="px-3 py-1 bg-gold/10 text-gold-light text-sm rounded-full border border-gold/20"
+                    className="px-3 py-1 bg-gold/20 text-gold text-sm rounded-full border border-gold/30 font-medium"
                   >
                     {tag}
                   </span>
                 ))}
               </div>
 
-              <div className="flex items-center gap-4 text-sm text-gray-400 mb-6">
+              <div className="flex items-center gap-4 text-sm text-gray-300 mb-6">
                 <div className="flex items-center gap-1">
-                  <Clock className="w-4 h-4" />
+                  <Clock className="w-4 h-4 text-gray-400" />
                   <span>{talk.duration}</span>
                 </div>
                 <div className="flex items-center gap-1">
-                  <Users className="w-4 h-4" />
+                  <Users className="w-4 h-4 text-gray-400" />
                   <span>{talk.audience} pessoas</span>
                 </div>
               </div>
 
               <Button 
-                className="w-full bg-gradient-to-r from-gold to-gold-dark hover:from-gold-dark hover:to-gold text-rich-black font-semibold py-6 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl"
+                className="w-full bg-gradient-to-r from-gold to-gold-dark hover:from-gold-dark hover:to-gold text-rich-black font-semibold py-6 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-gold/30"
               >
                 Solicitar informações
                 <ArrowRight className="ml-2 w-5 h-5" />
@@ -137,25 +137,25 @@ export default function SpeakingSection() {
           ))}
         </div>
 
-        <div className="mt-20 text-center bg-gradient-to-r from-gray-800/50 to-gray-900/50 backdrop-blur-sm rounded-2xl p-12 border border-gray-700/50 max-w-4xl mx-auto">
+        <div className="mt-20 text-center bg-gradient-to-r from-gray-800/60 to-gray-900/60 backdrop-blur-sm rounded-2xl p-12 border border-gray-700/60 max-w-4xl mx-auto">
           <h3 className="text-2xl font-serif font-bold text-white mb-4">
             Leve esta experiência para sua empresa ou evento
           </h3>
-          <p className="text-gray-300 mb-8 text-lg leading-relaxed">
+          <p className="text-gray-200 mb-8 text-lg leading-relaxed">
             Palestras customizadas para suas necessidades específicas, 
             com abordagem única que une ciência, filosofia e espiritualidade aplicada
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button 
               onClick={handleContact}
-              className="bg-gradient-to-r from-gold to-gold-dark hover:from-gold-dark hover:to-gold text-rich-black font-semibold px-8 py-6 text-lg rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl"
+              className="bg-gradient-to-r from-gold to-gold-dark hover:from-gold-dark hover:to-gold text-rich-black font-semibold px-8 py-6 text-lg rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-gold/30"
             >
               Agendar Palestra
               <ArrowRight className="ml-2 w-5 h-5" />
             </Button>
             <Button 
               variant="outline"
-              className="border-2 border-gold text-gold hover:bg-gold hover:text-rich-black font-semibold px-8 py-6 text-lg rounded-lg transition-all duration-300"
+              className="border-2 border-gold text-gold hover:bg-gold/10 hover:text-gold-light hover:border-gold-light font-semibold px-8 py-6 text-lg rounded-lg transition-all duration-300 backdrop-blur-sm"
             >
               Baixar Portfolio
               <ArrowRight className="ml-2 w-5 h-5" />

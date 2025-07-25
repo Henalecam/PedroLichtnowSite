@@ -1,261 +1,279 @@
-import { useState, useEffect, Suspense, lazy } from "react";
-import { useLocation } from "wouter";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
-import { useToast } from "@/components/ui/use-toast";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useState, useEffect } from 'react';
+import { useLocation, useParams } from 'wouter';
+import { getPostById, updatePost, generateSlug } from '@/lib/db';
+import { getAvailableImages, getImageUrl } from '@/lib/images';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Switch } from '@/components/ui/switch';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { toast } from 'sonner';
+import { ArrowLeft, Save, Eye } from 'lucide-react';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import ProtectedRoute from '@/components/ProtectedRoute';
 
-// Importando o editor de forma dinâmica para evitar problemas de SSR
-const Editor = lazy(() => import("@/components/editor"));
-
-interface Post {
-  id?: string;
+interface BlogPost {
+  id?: number;
   title: string;
-  slug: string;
   content: string;
   excerpt: string;
-  status: "draft" | "published";
-  featuredImage?: string;
+  slug: string;
+  image?: string;
+  createdAt: string;
+  updatedAt: string;
+  published: boolean;
 }
 
 export default function PostEditor() {
-  const [post, setPost] = useState<Post>({
-    title: "",
-    slug: "",
-    content: "",
-    excerpt: "",
-    status: "draft",
-  });
-  const [isLoading, setIsLoading] = useState(false);
-  const [isSaving, setIsSaving] = useState(false);
-  const [location, setLocation] = useLocation();
-  const { toast } = useToast();
+  const [, setLocation] = useLocation();
+  const { id } = useParams();
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [showPreview, setShowPreview] = useState(false);
+  const [formData, setFormData] = useState<BlogPost | null>(null);
 
-  const isEditing = location.includes("/edit/");
-  const postId = isEditing ? location.split("/").pop() : null;
+  const availableImages = getAvailableImages();
 
   useEffect(() => {
-    if (isEditing && postId) {
-      fetchPost();
-    }
-  }, [postId]);
+    loadPost();
+  }, [id]);
 
-  const fetchPost = async () => {
+  const loadPost = async () => {
+    if (!id) return;
+    
     try {
-      const response = await fetch(`/api/posts/${postId}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("adminToken")}`,
-        },
-      });
-
-      if (!response.ok) throw new Error("Erro ao carregar post");
-
-      const data = await response.json();
-      setPost(data);
+      setLoading(true);
+      const post = await getPostById(parseInt(id));
+      
+      if (!post) {
+        toast.error('Post não encontrado');
+        setLocation('/admin/dashboard');
+        return;
+      }
+      
+      setFormData(post);
     } catch (error) {
-      toast({
-        title: "Erro",
-        description: "Não foi possível carregar o post.",
-        variant: "destructive",
-      });
-      setLocation("/admin/dashboard");
+      console.error('Error loading post:', error);
+      toast.error('Erro ao carregar post');
+      setLocation('/admin/dashboard');
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSaving(true);
+    
+    if (!formData || !formData.title || !formData.content) {
+      toast.error('Por favor, preencha o título e o conteúdo');
+      return;
+    }
 
+    setSaving(true);
+    
     try {
-      const url = isEditing ? `/api/posts/${postId}` : "/api/posts";
-      const method = isEditing ? "PUT" : "POST";
-
-      const response = await fetch(url, {
-        method,
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("adminToken")}`,
-        },
-        body: JSON.stringify(post),
+      await updatePost(parseInt(id!), {
+        title: formData.title,
+        content: formData.content,
+        excerpt: formData.excerpt,
+        slug: formData.slug || generateSlug(formData.title),
+        image: formData.image,
+        published: formData.published
       });
-
-      if (!response.ok) throw new Error("Erro ao salvar post");
-
-      toast({
-        title: "Sucesso",
-        description: `Post ${isEditing ? "atualizado" : "criado"} com sucesso.`,
-      });
-
-      setLocation("/admin/dashboard");
+      
+      toast.success('Post atualizado com sucesso!');
     } catch (error) {
-      toast({
-        title: "Erro",
-        description: "Não foi possível salvar o post.",
-        variant: "destructive",
-      });
+      console.error('Error updating post:', error);
+      toast.error('Erro ao atualizar post');
     } finally {
-      setIsSaving(false);
+      setSaving(false);
     }
   };
 
-  const handleImageUpload = async (file: File) => {
-    const formData = new FormData();
-    formData.append("image", file);
+  if (loading) {
+    return (
+      <ProtectedRoute>
+        <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+          <div className="text-center">
+            <p className="text-gray-600">Carregando post...</p>
+          </div>
+        </div>
+      </ProtectedRoute>
+    );
+  }
 
-    try {
-      const response = await fetch("/api/upload", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("adminToken")}`,
-        },
-        body: formData,
-      });
-
-      if (!response.ok) throw new Error("Erro ao fazer upload da imagem");
-
-      const data = await response.json();
-      setPost((prev) => ({ ...prev, featuredImage: data.url }));
-    } catch (error) {
-      toast({
-        title: "Erro",
-        description: "Não foi possível fazer upload da imagem.",
-        variant: "destructive",
-      });
-    }
-  };
+  if (!formData) {
+    return null;
+  }
 
   return (
-    <div className="min-h-screen bg-[#fafafa] bg-[url('/texture.svg')] bg-repeat p-8">
-      <div className="max-w-7xl mx-auto">
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold">
-            {isEditing ? "Editar Post" : "Novo Post"}
-          </h1>
-          <Button variant="outline" onClick={() => setLocation("/admin/dashboard")}>
-            Cancelar
-          </Button>
-        </div>
+    <ProtectedRoute>
+      <div className="min-h-screen bg-gray-50">
+        <div className="container mx-auto p-6 max-w-6xl">
+          {/* Header */}
+          <div className="flex justify-between items-center mb-8">
+            <div className="flex items-center gap-4">
+              <Button
+                variant="ghost"
+                onClick={() => setLocation('/admin/dashboard')}
+              >
+                <ArrowLeft className="w-4 h-4 mr-2" />
+                Voltar
+              </Button>
+              <h1 className="text-3xl font-bold text-gray-900">Editar Post</h1>
+            </div>
+            <div className="flex gap-3">
+              <Button
+                variant="outline"
+                onClick={() => setShowPreview(!showPreview)}
+              >
+                <Eye className="w-4 h-4 mr-2" />
+                {showPreview ? 'Editar' : 'Preview'}
+              </Button>
+              <Button onClick={handleSubmit} disabled={saving}>
+                <Save className="w-4 h-4 mr-2" />
+                {saving ? 'Salvando...' : 'Salvar'}
+              </Button>
+            </div>
+          </div>
 
-        <form onSubmit={handleSubmit}>
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <div className="lg:col-span-2 space-y-8">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Conteúdo</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Form */}
+            <Card className={showPreview ? 'lg:col-span-1' : 'lg:col-span-2'}>
+              <CardHeader>
+                <CardTitle>Informações do Post</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="space-y-2">
                     <Label htmlFor="title">Título</Label>
                     <Input
                       id="title"
-                      value={post.title}
-                      onChange={(e) => setPost((prev) => ({ ...prev, title: e.target.value }))}
+                      value={formData.title}
+                      onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                      placeholder="Digite o título do post"
                       required
                     />
                   </div>
+
                   <div className="space-y-2">
-                    <Label htmlFor="slug">Slug</Label>
+                    <Label htmlFor="slug">Slug (URL)</Label>
                     <Input
                       id="slug"
-                      value={post.slug}
-                      onChange={(e) => setPost((prev) => ({ ...prev, slug: e.target.value }))}
-                      required
+                      value={formData.slug}
+                      onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
+                      placeholder="slug-do-post"
                     />
+                    <p className="text-sm text-gray-500">
+                      URL: /blog/{formData.slug || 'slug-do-post'}
+                    </p>
                   </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="content">Conteúdo</Label>
-                    <Suspense fallback={<div>Carregando editor...</div>}>
-                      <Editor
-                        value={post.content}
-                        onChange={(content) => setPost((prev) => ({ ...prev, content }))}
-                        onImageUpload={handleImageUpload}
-                      />
-                    </Suspense>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
 
-            <div className="space-y-8">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Configurações</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="status">Status</Label>
-                    <select
-                      id="status"
-                      className="w-full rounded-md border border-input bg-background px-3 py-2"
-                      value={post.status}
-                      onChange={(e) => setPost((prev) => ({ ...prev, status: e.target.value as "draft" | "published" }))}
-                    >
-                      <option value="draft">Rascunho</option>
-                      <option value="published">Publicado</option>
-                    </select>
-                  </div>
                   <div className="space-y-2">
                     <Label htmlFor="excerpt">Resumo</Label>
                     <Textarea
                       id="excerpt"
-                      value={post.excerpt}
-                      onChange={(e) => setPost((prev) => ({ ...prev, excerpt: e.target.value }))}
-                      rows={4}
+                      value={formData.excerpt}
+                      onChange={(e) => setFormData({ ...formData, excerpt: e.target.value })}
+                      placeholder="Breve descrição do post"
+                      rows={3}
                     />
                   </div>
+
                   <div className="space-y-2">
-                    <Label>Imagem de Destaque</Label>
-                    {post.featuredImage ? (
-                      <div className="relative aspect-video">
+                    <Label htmlFor="image">Imagem de Capa</Label>
+                    <Select
+                      value={formData.image || ''}
+                      onValueChange={(value) => setFormData({ ...formData, image: value })}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Selecione uma imagem" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="">Nenhuma imagem</SelectItem>
+                        {availableImages.map((img) => (
+                          <SelectItem key={img} value={img}>
+                            {img}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    {formData.image && (
+                      <div className="mt-2">
                         <img
-                          src={post.featuredImage}
-                          alt="Imagem de destaque"
-                          className="rounded-md object-cover w-full h-full"
+                          src={getImageUrl(formData.image)}
+                          alt="Preview"
+                          className="w-full h-48 object-cover rounded-lg"
                         />
-                        <Button
-                          type="button"
-                          variant="destructive"
-                          size="sm"
-                          className="absolute top-2 right-2"
-                          onClick={() => setPost((prev) => ({ ...prev, featuredImage: undefined }))}
-                        >
-                          Remover
-                        </Button>
-                      </div>
-                    ) : (
-                      <div className="border-2 border-dashed rounded-md p-4 text-center">
-                        <input
-                          type="file"
-                          accept="image/*"
-                          onChange={(e) => {
-                            const file = e.target.files?.[0];
-                            if (file) handleImageUpload(file);
-                          }}
-                          className="hidden"
-                          id="featured-image"
-                        />
-                        <label
-                          htmlFor="featured-image"
-                          className="cursor-pointer text-sm text-muted-foreground"
-                        >
-                          Clique para fazer upload de uma imagem
-                        </label>
                       </div>
                     )}
                   </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="content">Conteúdo (Markdown)</Label>
+                    <Textarea
+                      id="content"
+                      value={formData.content}
+                      onChange={(e) => setFormData({ ...formData, content: e.target.value })}
+                      placeholder="Escreva o conteúdo do post em Markdown..."
+                      rows={15}
+                      className="font-mono"
+                      required
+                    />
+                    <p className="text-sm text-gray-500">
+                      Você pode usar Markdown para formatar o texto
+                    </p>
+                  </div>
+
+                  <div className="flex items-center space-x-2">
+                    <Switch
+                      id="published"
+                      checked={formData.published}
+                      onCheckedChange={(checked) => setFormData({ ...formData, published: checked })}
+                    />
+                    <Label htmlFor="published">Post publicado</Label>
+                  </div>
+
+                  <div className="text-sm text-gray-500">
+                    <p>Criado em: {new Date(formData.createdAt).toLocaleString('pt-BR')}</p>
+                    <p>Última atualização: {new Date(formData.updatedAt).toLocaleString('pt-BR')}</p>
+                  </div>
+                </form>
+              </CardContent>
+            </Card>
+
+            {/* Preview */}
+            {showPreview && (
+              <Card>
+                <CardHeader>
+                  <CardTitle>Preview</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <article className="prose prose-gray max-w-none">
+                    <h1>{formData.title}</h1>
+                    {formData.image && (
+                      <img
+                        src={getImageUrl(formData.image)}
+                        alt={formData.title}
+                        className="w-full h-64 object-cover rounded-lg mb-6"
+                      />
+                    )}
+                    {formData.excerpt && (
+                      <p className="text-lg text-gray-600 mb-6">{formData.excerpt}</p>
+                    )}
+                    <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                      {formData.content}
+                    </ReactMarkdown>
+                  </article>
                 </CardContent>
               </Card>
-
-              <Button type="submit" className="w-full" disabled={isSaving}>
-                {isSaving ? "Salvando..." : isEditing ? "Atualizar Post" : "Criar Post"}
-              </Button>
-            </div>
+            )}
           </div>
-        </form>
+        </div>
       </div>
-    </div>
+    </ProtectedRoute>
   );
 } 

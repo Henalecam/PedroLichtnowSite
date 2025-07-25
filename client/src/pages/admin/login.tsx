@@ -1,76 +1,66 @@
-import { useState } from "react";
-import { useLocation } from "wouter";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
-import { useToast } from "@/components/ui/use-toast";
+import { useState } from 'react';
+import { useLocation } from 'wouter';
+import { useAuth } from '@/contexts/AuthContext';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { toast } from 'sonner';
+import { Lock } from 'lucide-react';
 
 export default function AdminLogin() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [password, setPassword] = useState('');
   const [, setLocation] = useLocation();
-  const { toast } = useToast();
+  const { login, isAuthenticated } = useAuth();
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  // Redirect if already authenticated
+  if (isAuthenticated) {
+    setLocation('/admin/dashboard');
+    return null;
+  }
+
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
-
-    try {
-      const response = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
-
-      if (!response.ok) throw new Error("Credenciais inválidas");
-
-      const data = await response.json();
-      localStorage.setItem("adminToken", data.token);
-      setLocation("/admin/dashboard");
-    } catch (error) {
-      toast({
-        title: "Erro",
-        description: "Credenciais inválidas. Tente novamente.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsLoading(false);
+    
+    if (login(password)) {
+      toast.success('Login realizado com sucesso!');
+      setLocation('/admin/dashboard');
+    } else {
+      toast.error('Senha incorreta!');
+      setPassword('');
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#fafafa] bg-[url('/texture.svg')] bg-repeat">
-      <Card className="w-[400px]">
-        <CardHeader>
-          <CardTitle>Login Administrativo</CardTitle>
-          <CardDescription>Entre com suas credenciais para acessar o painel</CardDescription>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100">
+      <Card className="w-full max-w-md">
+        <CardHeader className="space-y-1">
+          <div className="flex items-center justify-center mb-4">
+            <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center">
+              <Lock className="w-6 h-6 text-white" />
+            </div>
+          </div>
+          <CardTitle className="text-2xl text-center">Admin Login</CardTitle>
+          <CardDescription className="text-center">
+            Digite a senha de administrador para acessar o painel
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-            </div>
             <div className="space-y-2">
               <Label htmlFor="password">Senha</Label>
               <Input
                 id="password"
                 type="password"
+                placeholder="Digite a senha"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
+                autoFocus
               />
             </div>
-            <Button type="submit" className="w-full" disabled={isLoading}>
-              {isLoading ? "Entrando..." : "Entrar"}
+            <Button type="submit" className="w-full">
+              Entrar
             </Button>
           </form>
         </CardContent>

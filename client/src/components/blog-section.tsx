@@ -1,54 +1,47 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Calendar, Clock, ArrowRight, BookOpen, Users, TrendingUp } from "lucide-react";
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
+import { useLocation } from "wouter";
 import useScrollReveal from "@/hooks/useScrollReveal";
+import { getAllPosts, initDatabase } from "@/lib/db";
+import { getImageUrl } from "@/lib/images";
+import { format } from "date-fns";
+import { ptBR } from "date-fns/locale";
+
+interface BlogPost {
+  id?: number;
+  title: string;
+  content: string;
+  excerpt: string;
+  slug: string;
+  image?: string;
+  createdAt: string;
+  updatedAt: string;
+  published: boolean;
+}
 
 export default function BlogSection() {
-  const articles = [
-    {
-      title: "Alma e Destino",
-      excerpt: "A alma humana incide sobre a verdade e compromisso, antes de tudo, com ela mesma. O mundo, reforçou ainda o destino, passa em um piscar de olhos, como um sorriso instantâneo.",
-      date: "15 de Março, 2024",
-      image: "/blog-1.jpg",
-      tags: ["destino", "existencialismo", "verdadesdaalma"]
-    },
-    {
-      title: "Fogo e Realização",
-      excerpt: "De onde vem o fogo da realização? Certamente, da chama interna e do mais profundo desejo subjetivo. Quando há chama, clama-se e tudo flameja na mente e no coração.",
-      date: "10 de Março, 2024",
-      image: "/blog-2.jpg",
-      tags: ["chamadarealização", "existencialismo", "fogoeinspiração"]
-    },
-    {
-      title: "Medos, Egos e o Caminho",
-      excerpt: "Na vida, duas grandes verdades, quase sempre certas, fazem qualquer um de nós perder-se no caminho: nossos medos ou nosso ego.",
-      date: "5 de Março, 2024",
-      image: "/blog-3.jpg",
-      tags: ["verdadesdavida", "existencialismo", "poderdaconsciência"]
-    },
-    {
-      title: "Consciência Artificial",
-      excerpt: "Se tudo é frequência, conforme os princípios da física quântica, a Inteligência Artificial também é um nível ou padrão de frequência.",
-      date: "1 de Março, 2024",
-      image: "/blog-4.jpg",
-      tags: ["inteligênciaartificial", "consciênciauniversal", "futurodahumanidade"]
-    },
-    {
-      title: "Diálogo com a Solidão",
-      excerpt: "Quando o homem aprende a conversar com a solidão dele, nada mais parece intransponível. Quando não existe nada envolta, apenas o silêncio da alma e o eco da razão.",
-      date: "25 de Fevereiro, 2024",
-      image: "/blog-5.jpg",
-      tags: ["resilienciahumana", "existencialismo", "poderdaconsciência"]
-    },
-    {
-      title: "Tempos Apagados",
-      excerpt: "Não existem ainda explicações lógicas ou confirmadas sobre o apagão internacional na Europa, em Portugal e na Espanha.",
-      date: "20 de Fevereiro, 2024",
-      image: "/blog-6.jpg",
-      tags: ["temposdemudança", "existencialismo", "apagãoeuropa"]
+  const [posts, setPosts] = useState<BlogPost[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [, setLocation] = useLocation();
+
+  useEffect(() => {
+    loadPosts();
+  }, []);
+
+  const loadPosts = async () => {
+    try {
+      setLoading(true);
+      await initDatabase();
+      const allPosts = await getAllPosts(true); // Only published posts
+      setPosts(allPosts.slice(0, 6)); // Show only first 6 posts
+    } catch (error) {
+      console.error('Error loading posts:', error);
+    } finally {
+      setLoading(false);
     }
-  ];
+  };
 
   const sectionRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
@@ -63,6 +56,39 @@ export default function BlogSection() {
   useScrollReveal(descRef, "animate-slide-up");
   useScrollReveal(featuredRef, "animate-fade-in");
   useScrollReveal(postsRef, "animate-fade-in");
+
+  // Fallback articles if no posts in database
+  const fallbackArticles = [
+    {
+      title: "Alma e Destino",
+      excerpt: "A alma humana incide sobre a verdade e compromisso, antes de tudo, com ela mesma. O mundo, reforçou ainda o destino, passa em um piscar de olhos, como um sorriso instantâneo.",
+      createdAt: new Date().toISOString(),
+      image: "/placeholder-1.svg",
+      slug: "alma-e-destino"
+    },
+    {
+      title: "Fogo e Realização",
+      excerpt: "De onde vem o fogo da realização? Certamente, da chama interna e do mais profundo desejo subjetivo. Quando há chama, clama-se e tudo flameja na mente e no coração.",
+      createdAt: new Date().toISOString(),
+      image: "/placeholder-2.svg",
+      slug: "fogo-e-realizacao"
+    },
+    {
+      title: "Medos, Egos e o Caminho",
+      excerpt: "Na vida, duas grandes verdades, quase sempre certas, fazem qualquer um de nós perder-se no caminho: nossos medos ou nosso ego.",
+      createdAt: new Date().toISOString(),
+      image: "/placeholder-3.svg",
+      slug: "medos-egos-e-o-caminho"
+    }
+  ];
+
+  const displayPosts = posts.length > 0 ? posts : fallbackArticles.map((article, index) => ({
+    ...article,
+    id: index,
+    content: article.excerpt,
+    updatedAt: article.createdAt,
+    published: true
+  }));
 
   return (
     <section id="blog" className="py-24 relative overflow-hidden">
@@ -81,41 +107,46 @@ export default function BlogSection() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {articles.map((article, index) => (
-            <article key={index} className="bg-white rounded-lg overflow-hidden shadow-lg">
-              <img
-                src={article.image}
-                alt={article.title}
-                className="w-full h-48 object-cover"
-              />
-              <div className="p-6">
-                <div className="flex gap-2 mb-4">
-                  {article.tags.map((tag, tagIndex) => (
-                    <span
-                      key={tagIndex}
-                      className="text-sm text-primary bg-primary/10 px-2 py-1 rounded"
-                    >
-                      #{tag}
+        {loading ? (
+          <div className="text-center py-12">
+            <p className="text-gray-600">Carregando artigos...</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {displayPosts.map((post) => (
+              <article key={post.id} className="bg-white rounded-lg overflow-hidden shadow-lg cursor-pointer hover:shadow-xl transition-shadow">
+                <img
+                  src={getImageUrl(post.image)}
+                  alt={post.title}
+                  className="w-full h-48 object-cover"
+                  onClick={() => setLocation(`/blog/${post.slug}`)}
+                />
+                <div className="p-6">
+                  <h3 className="text-xl font-semibold mb-2">{post.title}</h3>
+                  <p className="text-gray-600 mb-4 line-clamp-3">
+                    {post.excerpt || post.content.substring(0, 150) + '...'}
+                  </p>
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm text-gray-500">
+                      {format(new Date(post.createdAt), 'dd/MM/yyyy', { locale: ptBR })}
                     </span>
-                  ))}
+                    <Button 
+                      variant="ghost" 
+                      className="group"
+                      onClick={() => setLocation(`/blog/${post.slug}`)}
+                    >
+                      Ler mais
+                      <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                    </Button>
+                  </div>
                 </div>
-                <h3 className="text-xl font-semibold mb-2">{article.title}</h3>
-                <p className="text-gray-600 mb-4">{article.excerpt}</p>
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-gray-500">{article.date}</span>
-                  <Button variant="ghost" className="group">
-                    Ler mais
-                    <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-                  </Button>
-                </div>
-              </div>
-            </article>
-          ))}
-        </div>
+              </article>
+            ))}
+          </div>
+        )}
 
         {/* Newsletter Subscription */}
-        <div className="bg-white rounded-2xl shadow-lg p-8 mb-12">
+        <div className="bg-white rounded-2xl shadow-lg p-8 mb-12 mt-12">
           <div className="grid md:grid-cols-2 gap-8 items-center">
             <div>
               <h3 className="font-serif text-2xl font-bold text-rich-black mb-3">
@@ -143,6 +174,7 @@ export default function BlogSection() {
           <Button 
             variant="outline"
             className="border-rich-black text-rich-black hover:bg-rich-black hover:text-white px-8 py-3 font-semibold"
+            onClick={() => setLocation('/blog')}
           >
             Ver todos os artigos
           </Button>

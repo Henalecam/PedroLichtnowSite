@@ -1,37 +1,16 @@
 import { useState, useEffect } from "react";
-import { Menu, X, MessageCircle } from "lucide-react";
+import { Menu, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useLocation } from "wouter";
 
-export default function Navigation() {
+export default function BlogNavigation() {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [navTheme, setNavTheme] = useState<'light' | 'dark'>('light');
   const [, setLocation] = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
-
-      const sections = Array.from(document.querySelectorAll('section[id]'));
-      const navbar = document.querySelector('nav');
-      if (!navbar) return;
-      const navbarHeight = navbar.getBoundingClientRect().height;
-      const scrollPosition = window.scrollY + navbarHeight + 1;
-      let currentTheme = 'light';
-      for (const section of sections) {
-        const rect = section.getBoundingClientRect();
-        const sectionTop = window.scrollY + rect.top;
-        const sectionBottom = sectionTop + rect.height;
-        if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
-          const theme = section.getAttribute('data-theme');
-          if (theme === 'dark') {
-            currentTheme = 'dark';
-          }
-          break;
-        }
-      }
-      setNavTheme(currentTheme as 'light' | 'dark');
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -40,26 +19,10 @@ export default function Navigation() {
   }, []);
 
   const navLinks = [
-    { href: "#inicio", label: "Início" },
-    { href: "#sobre", label: "Sobre" },
-    { href: "#servicos", label: "Serviços" },
-    { href: "#livros", label: "Livros" },
-    { href: "#palestras", label: "Palestras" },
-    { href: "#depoimentos", label: "Depoimentos" },
-    { href: "#blog", label: "Blog", isSection: true },
-    { href: "/blog", label: "Todos os Posts", isRoute: true },
+    { href: "/", label: "Início" },
+    { href: "/blog", label: "Blog" },
+    { href: "/admin/login", label: "Admin" },
   ];
-
-  const handleNavClick = (href: string, isRoute?: boolean) => {
-    if (isRoute) {
-      setLocation(href);
-    } else {
-      const element = document.querySelector(href);
-      if (element) {
-        element.scrollIntoView({ behavior: "smooth" });
-      }
-    }
-  };
 
   const handleWhatsAppContact = () => {
     const message = "Olá Pedro, gostaria de mais informações sobre seu trabalho.";
@@ -67,22 +30,14 @@ export default function Navigation() {
     window.open(whatsappUrl, "_blank");
   };
 
-  const navBg = navTheme === 'dark'
-    ? (isScrolled ? 'glass-effect-dark' : 'bg-transparent')
-    : (isScrolled ? 'glass-effect' : 'bg-transparent');
-  const navText = navTheme === 'dark' ? 'text-white' : 'text-rich-black';
-  const navLink = navTheme === 'dark'
-    ? 'nav-link text-white/90 hover:text-gold'
-    : 'nav-link text-refined-gray hover:text-rich-black';
+  const navBg = isScrolled ? 'glass-effect' : 'bg-transparent';
 
   return (
-    <nav 
-      className={`fixed top-0 w-full z-50 transition-all duration-500 ${navBg}`}
-    >
+    <nav className={`fixed top-0 w-full z-50 transition-all duration-500 ${navBg}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
           <div 
-            className={`font-serif font-bold text-2xl ${navText} transition-colors duration-300 cursor-pointer`}
+            className="font-serif font-bold text-2xl text-rich-black transition-colors duration-300 cursor-pointer"
             onClick={() => setLocation('/')}
           >
             Pedro Lichtnow
@@ -91,8 +46,8 @@ export default function Navigation() {
             {navLinks.map((link) => (
               <button
                 key={link.href}
-                onClick={() => handleNavClick(link.href, link.isRoute)}
-                className={`${navLink} text-sm font-medium tracking-wide transition-all duration-300`}
+                onClick={() => setLocation(link.href)}
+                className="nav-link text-refined-gray hover:text-rich-black text-sm font-medium tracking-wide transition-all duration-300"
               >
                 {link.label}
               </button>
@@ -108,7 +63,7 @@ export default function Navigation() {
           <Sheet>
             <SheetTrigger asChild>
               <Button variant="ghost" className="md:hidden" size="icon">
-                <Menu className={`h-6 w-6 ${navText}`} />
+                <Menu className="h-6 w-6 text-rich-black" />
               </Button>
             </SheetTrigger>
             <SheetContent className="glass-effect">
@@ -116,8 +71,8 @@ export default function Navigation() {
                 {navLinks.map((link) => (
                   <button
                     key={link.href}
-                    onClick={() => handleNavClick(link.href, link.isRoute)}
-                    className={`${navLink} text-lg text-left transition-all duration-300`}
+                    onClick={() => setLocation(link.href)}
+                    className="nav-link text-refined-gray hover:text-rich-black text-lg text-left transition-all duration-300"
                   >
                     {link.label}
                   </button>

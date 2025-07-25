@@ -21,7 +21,6 @@ export default function BlogNavigation() {
   const navLinks = [
     { href: "/", label: "Início" },
     { href: "/blog", label: "Blog" },
-    { href: "/admin/login", label: "Admin" },
   ];
 
   const handleWhatsAppContact = () => {

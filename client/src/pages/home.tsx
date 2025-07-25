@@ -19,7 +19,6 @@ export default function Home() {
       <SpeakingSection data-theme="dark" />
       <ExperiencesSection data-theme="dark" />
       <TestimonialsSection />
-      <BlogSection />
       <ContactSection data-theme="dark" />
       <Footer />
     </div>

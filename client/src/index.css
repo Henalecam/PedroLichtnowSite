@@ -98,6 +98,8 @@ h1, h2, h3, h4, h5, h6 {
   .text-medium-gray { color: var(--medium-gray); }
   .text-refined-gray { color: var(--refined-gray); }
   .text-gold { color: var(--gold); }
+  .text-gold-light { color: var(--gold-light); }
+  .text-gold-dark { color: var(--gold-dark); }
   
   .bg-rich-black { background-color: var(--rich-black); }
   .bg-warm-gray { background-color: var(--warm-gray); }

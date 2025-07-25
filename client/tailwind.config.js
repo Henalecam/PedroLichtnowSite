@@ -7,6 +7,23 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        // Core Colors
+        'rich-black': '#0a0a0a',
+        'warm-gray': '#2d2d2d',
+        'medium-gray': '#4a4a4a',
+        'refined-gray': '#6b6b6b',
+        'light-gray': '#e0e0e0',
+        'off-white': '#fafafa',
+        
+        // Gold Colors
+        'gold': {
+          DEFAULT: '#d4af37',
+          light: '#e6c757',
+          dark: '#b8941f',
+          muted: '#c9a961',
+        },
+        
+        // Existing colors
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         card: {

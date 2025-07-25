@@ -42,12 +42,12 @@ export default function Navigation() {
   const navLinks = [
     { href: "#inicio", label: "Início" },
     { href: "#sobre", label: "Sobre" },
-    { href: "#servicos", label: "Serviços" },
     { href: "#livros", label: "Livros" },
     { href: "#palestras", label: "Palestras" },
-    { href: "#depoimentos", label: "Depoimentos" },
-    { href: "#blog", label: "Blog", isSection: true },
-    { href: "/blog", label: "Todos os Posts", isRoute: true },
+    { href: "#experiencias", label: "Experiências" },
+    { href: "#testimonials", label: "Depoimentos" },
+    { href: "#blog", label: "Blog" },
+    { href: "#contact", label: "Contato" },
   ];
 
   const handleNavClick = (href: string, isRoute?: boolean) => {

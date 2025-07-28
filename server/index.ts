@@ -13,6 +13,7 @@ import path from "path";
 import fs from "fs";
 import cors from "cors";
 import campaignRoutes from "./routes/campaigns";
+import minigameApiRoutes from "./routes/minigame-api";
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -129,6 +130,9 @@ export { app, server };
   
   // Adicionar rotas admin
   app.use("/api/admin", campaignRoutes);
+  
+  // Adicionar rotas de minigames
+  app.use("/api/minigames", minigameApiRoutes);
 
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
     const status = err.status || err.statusCode || 500;

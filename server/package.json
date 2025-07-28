@@ -9,8 +9,10 @@
     "start": "node dist/index.js",
     "migrate:campaigns": "tsx scripts/migrate-campaigns.ts",
     "migrate:admin": "tsx scripts/add-admin-field.ts",
+    "migrate:minigame-stats": "tsx scripts/migrate-minigame-stats.ts",
     "seed:campaigns": "tsx scripts/seed-campaigns.ts",
-    "setup:campaigns": "npm run migrate:admin && npm run migrate:campaigns && npm run seed:campaigns"
+    "setup:campaigns": "npm run migrate:admin && npm run migrate:campaigns && npm run seed:campaigns",
+    "setup:minigames": "npm run migrate:minigame-stats"
   },
   "keywords": [],
   "author": "",
@@ -34,7 +36,7 @@
     "@types/node": "^20.10.4",
     "@types/pg": "^8.10.9",
     "drizzle-kit": "^0.20.6",
-    "tsx": "^4.6.2",
+    "tsx": "^4.20.3",
     "typescript": "^5.3.2"
   }
 }

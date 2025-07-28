@@ -13,6 +13,7 @@ import PostEditor from "@/pages/admin/posts/edit";
 import NewPost from "@/pages/admin/posts/new";
 import BlogList from "@/pages/blog/index";
 import BlogPost from "@/pages/blog/post";
+import CampaignsPage from "@/pages/admin/campaigns";
 
 function AdminRoute() {
   const { isAuthenticated } = useAuth();
@@ -33,6 +34,7 @@ function Router() {
       <Route path="/admin" component={AdminRoute} />
       <Route path="/admin/login" component={AdminLogin} />
       <Route path="/admin/dashboard" component={AdminDashboard} />
+      <Route path="/admin/campaigns" component={CampaignsPage} />
       <Route path="/admin/posts/new" component={NewPost} />
       <Route path="/admin/posts/:id/edit" component={PostEditor} />
       <Route component={NotFound} />

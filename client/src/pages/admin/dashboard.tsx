@@ -9,7 +9,7 @@ import { Badge } from '@/components/ui/badge';
 import { toast } from 'sonner';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
-import { Plus, Edit, Trash2, LogOut, Eye, EyeOff, FileText, BarChart3, PenTool } from 'lucide-react';
+import { Plus, Edit, Trash2, LogOut, Eye, EyeOff, FileText, BarChart3, PenTool, Trophy } from 'lucide-react';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -114,7 +114,7 @@ export default function AdminDashboard() {
               <CardHeader className="pb-3">
                 <div className="flex items-center justify-between">
                   <CardTitle className="text-lg text-blue-900">Total de Posts</CardTitle>
-                  <FileText className="w-8 h-8 text-blue-500 opacity-20" />
+                  <BarChart3 className="w-8 h-8 text-blue-500 opacity-20" />
                 </div>
               </CardHeader>
               <CardContent>
@@ -149,6 +149,35 @@ export default function AdminDashboard() {
               </CardContent>
             </Card>
           </div>
+
+          {/* Campaign Card */}
+          <Card 
+            className="border-0 shadow-sm hover:shadow-md transition-shadow duration-300 bg-gradient-to-br from-purple-50 to-purple-100/50 mb-8 cursor-pointer"
+            onClick={() => setLocation('/admin/campaigns')}
+          >
+            <CardHeader className="pb-3">
+              <div className="flex items-center justify-between">
+                <div>
+                  <CardTitle className="text-lg text-purple-900">Campanhas e Rankings</CardTitle>
+                  <CardDescription className="text-purple-700 mt-1">
+                    Gerencie campanhas e veja o ranking de compradores
+                  </CardDescription>
+                </div>
+                <Trophy className="w-12 h-12 text-purple-500 opacity-30" />
+              </div>
+            </CardHeader>
+            <CardContent>
+              <Button 
+                className="w-full bg-purple-600 hover:bg-purple-700 text-white"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setLocation('/admin/campaigns');
+                }}
+              >
+                Acessar Campanhas
+              </Button>
+            </CardContent>
+          </Card>
 
           {/* Posts Table */}
           <Card className="border-0 shadow-sm">
